@@ -27,12 +27,10 @@ export class User {
   password!: string;
 
   // relations
-  @OneToMany(() => Book, (book) => book.createdBy)
-  booksCreated!: Book[];
-
-  @OneToMany(() => Author, (author) => author.createdBy)
-  authorsCreated!: Author[];
-
-  @OneToMany(() => UserBook, (ub) => ub.user)
-  userBooks!: UserBook[];
+  @OneToMany(() => Book, book => book.user)
+  books?: Book[];
 }
+
+
+// src/entities/User.ts
+
