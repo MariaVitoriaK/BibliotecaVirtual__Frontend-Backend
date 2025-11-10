@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const authMiddleware_1 = require("../middlewares/authMiddleware");
+const GeneroController_1 = require("../controllers/GeneroController");
+const router = (0, express_1.Router)();
+router.use(authMiddleware_1.authMiddleware);
+router.get("/", GeneroController_1.getGeneros);
+router.get("/:id", GeneroController_1.getGenero);
+router.post("/", GeneroController_1.createGenero);
+router.put("/:id", GeneroController_1.updateGenero);
+router.delete("/:id", GeneroController_1.deleteGenero);
+exports.default = router;

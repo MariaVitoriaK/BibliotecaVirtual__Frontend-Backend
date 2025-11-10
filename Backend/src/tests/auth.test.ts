@@ -1,29 +1,52 @@
 import request from "supertest";
-import app from "../app";
-import { AppDataSource } from "../config/datasource";
-import { User } from "../entities/User";
+import { AppDataSource } from "../data-source";
+import { app } from "../index";
+
+beforeAll(async () => {
+  await AppDataSource.initialize();
+  // Desativar temporariamente as foreign keys
+  await AppDataSource.manager.query("SET FOREIGN_KEY_CHECKS = 0;");
+
+  // Limpar tabelas na ordem correta
+  await AppDataSource.getRepository("Livro").clear();
+  await AppDataSource.getRepository("Genero").clear();
+  await AppDataSource.getRepository("Autor").clear();
+  await AppDataSource.getRepository("Usuario").clear();
+
+  // Reativar as foreign keys
+  await AppDataSource.manager.query("SET FOREIGN_KEY_CHECKS = 1;");
+});
+
+afterAll(async () => {
+  await AppDataSource.destroy();
+});
 
 describe("Auth Routes", () => {
-  beforeAll(async () => {
-    const userRepo = AppDataSource.getRepository(User);
-    const user = userRepo.create({ name: "Teste", email: "teste@mail.com", password: "123456" });
-    await userRepo.save(user);
+  let token: string;
+
+  it("Deve registrar um usuário", async () => {
+    const res = await request(app).post("/api/auth/signup").send({
+      nome: "Vitória",
+      username: "vitoria",
+      email: "vitoria@test.com",
+      senha: "123456"
+    });
+    expect(res.status).toBe(201);
+    expect(res.body.message).toBe("Usuário criado com sucesso");
   });
 
-  it("should login successfully", async () => {
-    const res = await request(app)
-      .post("/api/auth/login")
-      .send({ email: "teste@mail.com", password: "123456" });
-
+  it("Deve logar e retornar token JWT", async () => {
+    const res = await request(app).post("/api/auth/login").send({
+      email: "vitoria@test.com",
+      senha: "123456"
+    });
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("token");
+    expect(res.body.token).toBeDefined();
+    token = res.body.token;
   });
 
-  it("should fail login with wrong password", async () => {
-    const res = await request(app)
-      .post("/api/auth/login")
-      .send({ email: "teste@mail.com", password: "wrong" });
-
+  it("Deve negar acesso sem token", async () => {
+    const res = await request(app).get("/api/livros");
     expect(res.status).toBe(401);
   });
 });
