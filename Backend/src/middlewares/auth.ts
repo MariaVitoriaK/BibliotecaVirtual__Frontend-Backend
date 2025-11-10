@@ -1,24 +1,30 @@
-// src/middlewares/auth.ts
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-export interface AuthRequest extends Request {
-  userId?: number;
+// Estendendo o tipo Request do Express para incluir `user`
+interface AuthenticatedRequest extends Request {
+  user?: { id: number; username: string };
 }
 
-export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ message: "Token não fornecido" });
+export const authenticateToken = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
 
-  const [, token] = authHeader.split(" ");
-  if (!token) return res.status(401).json({ message: "Token inválido" });
-
-  try {
-    const secret = process.env.JWT_SECRET || "default_secret";
-    const decoded = jwt.verify(token, secret) as { id: number };
-    req.userId = decoded.id;
-    next();
-  } catch {
-    return res.status(401).json({ message: "Token inválido" });
+  if (!token) {
+    return res.status(401).json({ message: "Token não fornecido" });
   }
+
+  jwt.verify(token, process.env.JWT_SECRET || "default_secret", (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Token inválido ou expirado" });
+    }
+
+    // salva user decodificado na requisição
+    req.user = user as { id: number; username: string };
+    next();
+  });
 };

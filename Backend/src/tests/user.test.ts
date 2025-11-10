@@ -1,50 +1,52 @@
 import request from "supertest";
-import { app } from "../app";
+import app from "../app";
 import { AppDataSource } from "../config/datasource";
+import { User } from "../entities/User";
 
-describe("UserController", () => {
-  let token: string;
+let token: string;
 
-  beforeAll(async () => {
-    await AppDataSource.initialize();
+beforeAll(async () => {
+  const userRepo = AppDataSource.getRepository(User);
+  const user = userRepo.create({ name: "Admin", email: "admin@mail.com", password: "123456" });
+  await userRepo.save(user);
 
-    await request(app).post("/api/v1/auth/register").send({
-      name: "User Test",
-      email: "usertest@email.com",
-      password: "123456",
-    });
+  const res = await request(app).post("/api/auth/login").send({ email: "admin@mail.com", password: "123456" });
+  token = res.body.token;
+});
 
-    const login = await request(app).post("/api/v1/auth/login").send({
-      email: "usertest@email.com",
-      password: "123456",
-    });
+describe("User CRUD", () => {
+  let userId: number;
 
-    token = login.body.token;
+  it("should create a user", async () => {
+    const res = await request(app)
+      .post("/api/users")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Novo", email: "novo@mail.com", password: "123456" });
+
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty("id");
+    userId = res.body.id;
   });
 
-  afterAll(async () => {
-    await AppDataSource.destroy();
-  });
-
-  it("Deve listar todos os usuários", async () => {
-    const res = await request(app).get("/api/v1/users");
-    expect(res.statusCode).toBe(200);
+  it("should list users", async () => {
+    const res = await request(app).get("/api/users").set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  it("Deve retornar erro ao tentar deletar sem token", async () => {
-    const res = await request(app).delete("/api/v1/users/1");
-    expect(res.statusCode).toBe(401);
+  it("should update a user", async () => {
+    const res = await request(app)
+      .put(`/api/users/${userId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Atualizado" });
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe("Atualizado");
   });
 
-  it("Deve deletar o usuário autenticado", async () => {
-    const userRes = await request(app).get("/api/v1/users");
-    const id = userRes.body[0].id;
-
+  it("should delete a user", async () => {
     const res = await request(app)
-      .delete(`/api/v1/users/${id}`)
+      .delete(`/api/users/${userId}`)
       .set("Authorization", `Bearer ${token}`);
-
-    expect(res.statusCode).toBe(200);
+    expect(res.status).toBe(200);
   });
 });

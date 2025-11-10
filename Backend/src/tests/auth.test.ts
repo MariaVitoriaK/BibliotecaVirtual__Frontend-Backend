@@ -1,45 +1,29 @@
 import request from "supertest";
-import { app } from "../app";
-
+import app from "../app";
 import { AppDataSource } from "../config/datasource";
+import { User } from "../entities/User";
 
-describe("AuthController", () => {
+describe("Auth Routes", () => {
   beforeAll(async () => {
-    await AppDataSource.initialize();
+    const userRepo = AppDataSource.getRepository(User);
+    const user = userRepo.create({ name: "Teste", email: "teste@mail.com", password: "123456" });
+    await userRepo.save(user);
   });
 
-  afterAll(async () => {
-    await AppDataSource.destroy();
+  it("should login successfully", async () => {
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "teste@mail.com", password: "123456" });
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("token");
   });
 
-  const user = {
-    name: "Vitória",
-    email: "teste@email.com",
-    password: "123456",
-  };
+  it("should fail login with wrong password", async () => {
+    const res = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "teste@mail.com", password: "wrong" });
 
-  it("Deve registrar um novo usuário", async () => {
-    const res = await request(app).post("/api/v1/auth/register").send(user);
-    expect(res.statusCode).toBe(201);
-    expect(res.body.message).toContain("Usuário criado com sucesso");
-  });
-
-  it("Deve fazer login com sucesso e retornar token JWT", async () => {
-    const res = await request(app).post("/api/v1/auth/login").send({
-      email: user.email,
-      password: user.password,
-    });
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body.token).toBeDefined();
-  });
-
-  it("Deve falhar ao tentar logar com senha errada", async () => {
-    const res = await request(app).post("/api/v1/auth/login").send({
-      email: user.email,
-      password: "senhaErrada",
-    });
-
-    expect(res.statusCode).toBe(401);
+    expect(res.status).toBe(401);
   });
 });

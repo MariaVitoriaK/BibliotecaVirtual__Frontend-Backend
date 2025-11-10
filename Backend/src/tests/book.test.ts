@@ -1,59 +1,49 @@
 import request from "supertest";
-import { app } from "../app";
-
+import app from "../app";
 import { AppDataSource } from "../config/datasource";
+import { User } from "../entities/User";
 
-describe("BookController", () => {
-  let token: string;
-  let bookId: number;
+let token: string;
+let bookId: number;
 
-  beforeAll(async () => {
-    await AppDataSource.initialize();
+beforeAll(async () => {
+  const userRepo = AppDataSource.getRepository(User);
+  const user = userRepo.create({ name: "BookUser", email: "book@mail.com", password: "123456" });
+  await userRepo.save(user);
 
-    await request(app).post("/api/v1/auth/register").send({
-      name: "BookUser",
-      email: "bookuser@email.com",
-      password: "123456",
-    });
+  const res = await request(app).post("/api/auth/login").send({ email: "book@mail.com", password: "123456" });
+  token = res.body.token;
+});
 
-    const login = await request(app).post("/api/v1/auth/login").send({
-      email: "bookuser@email.com",
-      password: "123456",
-    });
-
-    token = login.body.token;
-  });
-
-  afterAll(async () => {
-    await AppDataSource.destroy();
-  });
-
-  it("Deve criar um novo livro", async () => {
+describe("Book CRUD", () => {
+  it("should create a book", async () => {
     const res = await request(app)
-      .post("/api/v1/books")
+      .post("/api/books")
       .set("Authorization", `Bearer ${token}`)
-      .send({
-        title: "O Hobbit",
-        year: 1937,
-      });
-
-    expect(res.statusCode).toBe(201);
-    expect(res.body.book).toBeDefined();
-    bookId = res.body.book.id;
+      .send({ title: "O Hobbit", year: 1937 });
+    expect(res.status).toBe(201);
+    bookId = res.body.id;
   });
 
-  it("Deve listar todos os livros", async () => {
-    const res = await request(app).get("/api/v1/books");
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+  it("should list books", async () => {
+    const res = await request(app).get("/api/books").set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBeGreaterThan(0);
   });
 
-  it("Deve atualizar um livro existente", async () => {
+  it("should update a book", async () => {
     const res = await request(app)
-      .put(`/api/v1/books/${bookId}`)
+      .put(`/api/books/${bookId}`)
       .set("Authorization", `Bearer ${token}`)
-      .send({ title: "O Hobbit (Atualizado)" });
+      .send({ title: "O Hobbit Atualizado" });
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe("O Hobbit Atualizado");
+  });
 
-    expect(res.statusCode).toBe(200);
+  it("should delete a book", async () => {
+    const res = await request(app)
+      .delete(`/api/books/${bookId}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
   });
 });

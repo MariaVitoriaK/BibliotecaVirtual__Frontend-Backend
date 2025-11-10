@@ -1,44 +1,47 @@
 import request from "supertest";
-import { app } from "../app";
-
+import app from "../app";
 import { AppDataSource } from "../config/datasource";
+import { User } from "../entities/User";
 
-describe("AuthorController", () => {
-  let token: string;
+let token: string;
+let authorId: number;
 
-  beforeAll(async () => {
-    await AppDataSource.initialize();
+beforeAll(async () => {
+  const userRepo = AppDataSource.getRepository(User);
+  const user = userRepo.create({ name: "AuthorUser", email: "author@mail.com", password: "123456" });
+  await userRepo.save(user);
 
-    await request(app).post("/api/v1/auth/register").send({
-      name: "AuthorUser",
-      email: "authoruser@email.com",
-      password: "123456",
-    });
+  const res = await request(app).post("/api/auth/login").send({ email: "author@mail.com", password: "123456" });
+  token = res.body.token;
+});
 
-    const login = await request(app).post("/api/v1/auth/login").send({
-      email: "authoruser@email.com",
-      password: "123456",
-    });
-
-    token = login.body.token;
-  });
-
-  afterAll(async () => {
-    await AppDataSource.destroy();
-  });
-
-  it("Deve criar um novo autor", async () => {
+describe("Author CRUD", () => {
+  it("should create an author", async () => {
     const res = await request(app)
-      .post("/api/v1/authors")
+      .post("/api/authors")
       .set("Authorization", `Bearer ${token}`)
-      .send({ name: "J.R.R. Tolkien", birth: "1892-01-03" });
-
-    expect(res.statusCode).toBe(201);
+      .send({ name: "Tolkien" });
+    expect(res.status).toBe(201);
+    authorId = res.body.id;
   });
 
-  it("Deve listar todos os autores", async () => {
-    const res = await request(app).get("/api/v1/authors");
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+  it("should list authors", async () => {
+    const res = await request(app).get("/api/authors").set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
+  });
+
+  it("should update an author", async () => {
+    const res = await request(app)
+      .put(`/api/authors/${authorId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "J.R.R. Tolkien" });
+    expect(res.status).toBe(200);
+  });
+
+  it("should delete an author", async () => {
+    const res = await request(app)
+      .delete(`/api/authors/${authorId}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
   });
 });

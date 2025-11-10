@@ -1,44 +1,47 @@
 import request from "supertest";
-import { app } from "../app";
-
+import app from "../app";
 import { AppDataSource } from "../config/datasource";
+import { User } from "../entities/User";
 
-describe("GenreController", () => {
-  let token: string;
+let token: string;
+let genreId: number;
 
-  beforeAll(async () => {
-    await AppDataSource.initialize();
+beforeAll(async () => {
+  const userRepo = AppDataSource.getRepository(User);
+  const user = userRepo.create({ name: "GenreUser", email: "genre@mail.com", password: "123456" });
+  await userRepo.save(user);
 
-    await request(app).post("/api/v1/auth/register").send({
-      name: "GenreUser",
-      email: "genreuser@email.com",
-      password: "123456",
-    });
+  const res = await request(app).post("/api/auth/login").send({ email: "genre@mail.com", password: "123456" });
+  token = res.body.token;
+});
 
-    const login = await request(app).post("/api/v1/auth/login").send({
-      email: "genreuser@email.com",
-      password: "123456",
-    });
-
-    token = login.body.token;
-  });
-
-  afterAll(async () => {
-    await AppDataSource.destroy();
-  });
-
-  it("Deve criar um novo gênero", async () => {
+describe("Genre CRUD", () => {
+  it("should create a genre", async () => {
     const res = await request(app)
-      .post("/api/v1/genres")
+      .post("/api/genres")
       .set("Authorization", `Bearer ${token}`)
       .send({ name: "Fantasia" });
-
-    expect(res.statusCode).toBe(201);
+    expect(res.status).toBe(201);
+    genreId = res.body.id;
   });
 
-  it("Deve listar todos os gêneros", async () => {
-    const res = await request(app).get("/api/v1/genres");
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+  it("should list genres", async () => {
+    const res = await request(app).get("/api/genres").set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
+  });
+
+  it("should update a genre", async () => {
+    const res = await request(app)
+      .put(`/api/genres/${genreId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name: "Fantasia Épica" });
+    expect(res.status).toBe(200);
+  });
+
+  it("should delete a genre", async () => {
+    const res = await request(app)
+      .delete(`/api/genres/${genreId}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.status).toBe(200);
   });
 });

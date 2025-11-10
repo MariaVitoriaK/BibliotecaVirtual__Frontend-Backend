@@ -1,52 +1,49 @@
-// src/controllers/UserController.ts
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AppDataSource } from "../config/datasource";
 import { User } from "../entities/User";
-import { AuthRequest } from "../middlewares/auth";
 import bcrypt from "bcryptjs";
 
-const repo = () => AppDataSource.getRepository(User);
-
 export class UserController {
-  static async getProfile(req: AuthRequest, res: Response) {
+  static async getProfile(req: Request, res: Response) {
     try {
-      const user = await repo().findOneBy({ id: req.userId });
+      const userRepo = AppDataSource.getRepository(User);
+      const user = await userRepo.findOne({
+        where: { id: (req as any).user.id },
+        relations: ["books"],
+      });
       if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
-
-      const { password, ...userData } = user;
-      return res.json(userData);
-    } catch {
-      return res.status(500).json({ message: "Erro ao buscar perfil" });
+      return res.json(user);
+    } catch (err) {
+      return res.status(500).json({ message: "Erro ao buscar perfil", error: err });
     }
   }
 
-  static async update(req: AuthRequest, res: Response) {
-    const { name, birth, imageUrl, password } = req.body;
+  static async update(req: Request, res: Response) {
     try {
-      const user = await repo().findOneBy({ id: req.userId });
+      const { name, email, password } = req.body;
+      const userRepo = AppDataSource.getRepository(User);
+
+      const user = await userRepo.findOne({ where: { id: (req as any).user.id } });
       if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
 
+      user.name = name ?? user.name;
+      user.email = email ?? user.email;
       if (password) user.password = await bcrypt.hash(password, 10);
-      if (name) user.name = name;
-      if (birth) user.birth = birth;
-      if (imageUrl) user.imageUrl = imageUrl;
 
-      await repo().save(user);
-      return res.json({ message: "Perfil atualizado com sucesso" });
-    } catch {
-      return res.status(500).json({ message: "Erro ao atualizar perfil" });
+      await userRepo.save(user);
+      return res.json({ message: "Usuário atualizado com sucesso" });
+    } catch (err) {
+      return res.status(500).json({ message: "Erro ao atualizar usuário", error: err });
     }
   }
 
-  static async delete(req: AuthRequest, res: Response) {
+  static async delete(req: Request, res: Response) {
     try {
-      const user = await repo().findOneBy({ id: req.userId });
-      if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
-
-      await repo().remove(user);
+      const userRepo = AppDataSource.getRepository(User);
+      await userRepo.delete((req as any).user.id);
       return res.json({ message: "Usuário deletado com sucesso" });
-    } catch {
-      return res.status(500).json({ message: "Erro ao deletar usuário" });
+    } catch (err) {
+      return res.status(500).json({ message: "Erro ao deletar usuário", error: err });
     }
   }
 }

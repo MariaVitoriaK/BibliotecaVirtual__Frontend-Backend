@@ -1,14 +1,19 @@
-// src/routes/AuthorRoute.ts
 import { Router } from "express";
 import { AuthorController } from "../controllers/AuthorController";
-import { authMiddleware } from "../middlewares/auth";
+import { authenticateToken } from "../middlewares/auth";
 
 const router = Router();
 
-router.get("/", AuthorController.getAll);
-router.get("/:id", AuthorController.getById);
-router.post("/", authMiddleware, AuthorController.create);
-router.put("/:id", authMiddleware, AuthorController.update);
-router.delete("/:id", authMiddleware, AuthorController.delete);
+// Criar autor
+router.post("/", authenticateToken, AuthorController.create);
+
+// Listar todos os autores do usuário logado
+router.get("/", authenticateToken, AuthorController.list);
+
+// Atualizar autor
+router.put("/:id", authenticateToken, AuthorController.update);
+
+// Deletar autor
+router.delete("/:id", authenticateToken, AuthorController.delete);
 
 export default router;

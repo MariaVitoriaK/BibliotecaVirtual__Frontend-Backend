@@ -1,41 +1,55 @@
-// src/entities/Book.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { Author } from "./Author";
+import { Genre } from "./Genre";
 import { User } from "./User";
 
-@Entity()
+@Entity("books")
 export class Book {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number;
 
   @Column()
-  title!: string;
+  title: string;
+
+  @Column({ type: "int", nullable: true })
+  year: number;
+
+  @Column({ type: "text", nullable: true })
+  description: string;
 
   @Column({ nullable: true })
-  author?: string;
-
-  @Column({ nullable: true })
-  genre?: string;
-
-  @Column({ nullable: true })
-  description?: string;
-
-  @Column({ nullable: true })
-  coverUrl?: string;
+  coverUrl: string;
 
   @Column({ default: false })
-  isFavorite?: boolean;
+  isFavorite: boolean;
 
   @Column({ default: false })
-  isWantToRead?: boolean;
+  isWantToRead: boolean;
 
   @Column({ default: false })
-  isFinished?: boolean;
+  isCompleted: boolean;
 
-  // 👇 Aqui está o campo que vincula o livro ao usuário específico
-  @ManyToOne(() => User, user => user.books, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: "userId" })
-  user!: User;
+  // 🔹 Autor
+  @ManyToOne(() => Author, (author) => author.books, { eager: true, onDelete: "SET NULL" })
+  @JoinColumn({ name: "authorId" })
+  author: Author;
 
-  @Column()
-  userId!: number;
+  // 🔹 Gênero
+  @ManyToOne(() => Genre, (genre) => genre.books, { eager: true, onDelete: "SET NULL" })
+  @JoinColumn({ name: "genreId" })
+  genre: Genre;
+
+  // 🔹 Usuário
+ // @ManyToOne(() => User, (user) => user.books, { onDelete: "CASCADE" })
+//  @JoinColumn({ name: "userId" })
+//  user: User;
+
+  @ManyToOne(() => User, (user) => user.books)
+  user: User;
 }

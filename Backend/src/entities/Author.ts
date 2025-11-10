@@ -1,24 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
-import { Book } from "./Book";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { User } from "./User";
+import { Book } from "./Book";
 
 @Entity()
 export class Author {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number;
 
   @Column()
-  name!: string;
+  name: string;
 
   @Column({ type: "date", nullable: true })
-  birth?: Date;
-
-  @Column({ nullable: true })
-  imageUrl?: string;
-
-  @ManyToOne(() => User, (user) => user.authorsCreated, { nullable: true })
-  createdBy?: User;
+  birth: Date;
 
   @OneToMany(() => Book, (book) => book.author)
-  books!: Book[];
+  books: Book[];
+
+  @ManyToOne(() => User, (user) => user.authors, { onDelete: "CASCADE" })
+  user: User;
 }

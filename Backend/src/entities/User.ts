@@ -1,36 +1,44 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { UserBook } from "./UserBook";
-import { Book } from "./Book";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+} from "typeorm";
 import { Author } from "./Author";
+import { Genre } from "./Genre";
+import { Book } from "./Book";
 
-@Entity()
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id: number;
 
   @Column()
-  name!: string;
+  name: string;
+  
+  @Column({ unique: true })
+  username: string;
+  
 
   @Column({ unique: true })
-  username!: string;
-
-  @Column({ unique: true })
-  email!: string;
+  email: string;
 
   @Column({ type: "date", nullable: true })
-  birth?: Date;
-
-  @Column({ nullable: true })
-  imageUrl?: string;
+  birth: Date;
 
   @Column()
-  password!: string;
+  password: string;
 
-  // relations
-  @OneToMany(() => Book, book => book.user)
-  books?: Book[];
+    // Relação: um usuário tem muitos livros
+ // @OneToMany(() => Book, (book) => book.user)
+//  books: Book[];
+  @OneToMany(() => Book, (book) => book.user)
+  books: Book[];
+
+  // 👇 Adiciona os relacionamentos inversos:
+  @OneToMany(() => Author, (author) => author.user)
+  authors: Author[];
+
+  @OneToMany(() => Genre, (genre) => genre.user)
+  genres: Genre[];
 }
-
-
-// src/entities/User.ts
-

@@ -1,13 +1,19 @@
-// src/routes/GenreRoute.ts
 import { Router } from "express";
 import { GenreController } from "../controllers/GenreController";
-import { authMiddleware } from "../middlewares/auth";
+import { authenticateToken } from "../middlewares/auth";
 
 const router = Router();
 
-router.get("/", GenreController.getAll);
-router.get("/:id", GenreController.getById);
-router.post("/", authMiddleware, GenreController.create);
-router.delete("/:id", authMiddleware, GenreController.delete);
+// Criar gênero
+router.post("/", authenticateToken, GenreController.create);
+
+// Listar todos os gêneros do usuário logado
+router.get("/", authenticateToken, GenreController.list);
+
+// Atualizar gênero
+router.put("/:id", authenticateToken, GenreController.update);
+
+// Deletar gênero
+router.delete("/:id", authenticateToken, GenreController.delete);
 
 export default router;

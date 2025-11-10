@@ -1,10 +1,15 @@
 // src/server.ts
-import { app } from "./app";
-import dotenv from "dotenv";
+import express from "express";
+import { AppDataSource } from "./config/datasource";
 
-dotenv.config();
+const app = express();
+app.use(express.json());
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+AppDataSource.initialize()
+  .then(() => {
+    console.log("📦 Banco de dados conectado com sucesso!");
+    app.listen(3001, () => console.log("🚀 Server running on port 3001"));
+  })
+  .catch((err) => {
+    console.error("❌ Erro ao conectar no banco:", err);
+  });

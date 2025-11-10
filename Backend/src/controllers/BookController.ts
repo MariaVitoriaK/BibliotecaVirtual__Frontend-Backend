@@ -1,70 +1,84 @@
-// src/controllers/BookController.ts
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/datasource";
 import { Book } from "../entities/Book";
-import { Genre } from "../entities/Genre";
 import { Author } from "../entities/Author";
-import { AuthRequest } from "../middlewares/auth";
-import { User } from "../entities/User";
-
-const bookRepo = () => AppDataSource.getRepository(Book);
-const genreRepo = () => AppDataSource.getRepository(Genre);
-const authorRepo = () => AppDataSource.getRepository(Author);
-const userRepo = () => AppDataSource.getRepository(User);
+import { Genre } from "../entities/Genre";
 
 export class BookController {
-  static async getAll(req: Request, res: Response) {
-    const books = await bookRepo().find({
-      relations: ["genre", "author", "createdBy"],
-    });
-    return res.json(books);
-  }
-
-  static async create(req: AuthRequest, res: Response) {
-    const { title, year, description, coverUrl, genreId, authorId } = req.body;
-
+  static async create(req: Request, res: Response) {
     try {
-      const genre = await genreRepo().findOneBy({ id: genreId });
-      const author = await authorRepo().findOneBy({ id: authorId });
-      const user = await userRepo().findOneBy({ id: req.userId });
+      const { title, year, authors, genres, description, coverUrl } = req.body;
+      const bookRepo = AppDataSource.getRepository(Book);
 
-      if (!genre || !author || !user)
-        return res.status(400).json({ message: "Dados inválidos (autor/gênero/usuário)" });
-
-      const book = bookRepo().create({
+      const book = bookRepo.create({
         title,
         year,
         description,
         coverUrl,
-        genre,
-        author,
-        createdBy: user,
+        user: { id: (req as any).user.id },
+
       });
 
-      await bookRepo().save(book);
+  if (authors) {
+    const author = await AppDataSource.getRepository(Author).findOneBy({ id: authors });
+   if (author) book.author = author;
+  }
+
+  if (genres) {
+    const genre = await AppDataSource.getRepository(Genre).findOneBy({ id: genres });
+    if (genre) book.genre = genre;
+  }
+
+      await bookRepo.save(book);
       return res.status(201).json(book);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Erro ao criar livro" });
+    } catch (err) {
+      return res.status(500).json({ message: "Erro ao criar livro", error: err });
     }
   }
 
-  static async delete(req: AuthRequest, res: Response) {
-    const { id } = req.params;
+  static async list(req: Request, res: Response) {
     try {
-      const book = await bookRepo().findOne({
-        where: { id: Number(id) },
-        relations: ["createdBy"],
+      const bookRepo = AppDataSource.getRepository(Book);
+      const books = await bookRepo.find({
+        where: { user: { id: (req as any).user.id} },
+        relations: ["authors", "genres"],
       });
+      return res.json(books);
+    } catch (err) {
+      return res.status(500).json({ message: "Erro ao listar livros", error: err });
+    }
+  }
+
+  static async update(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { title, year, isFavorite, isWantToRead, isCompleted, description, coverUrl } = req.body;
+
+      const bookRepo = AppDataSource.getRepository(Book);
+      const book = await bookRepo.findOne({ where: { id: Number(id), user: { id: (req as any).user.id }} });
 
       if (!book) return res.status(404).json({ message: "Livro não encontrado" });
-      if (book.createdBy?.id !== req.userId)
-        return res.status(403).json({ message: "Sem permissão para excluir este livro" });
 
-      await bookRepo().remove(book);
-      return res.json({ message: "Livro removido" });
-    } catch {
-      return res.status(500).json({ message: "Erro ao remover livro" });
+      Object.assign(book, { title, year, isFavorite, isWantToRead, isCompleted, description, coverUrl });
+      await bookRepo.save(book);
+
+      return res.json(book);
+    } catch (err) {
+      return res.status(500).json({ message: "Erro ao atualizar livro", error: err });
+    }
+  }
+
+  static async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const bookRepo = AppDataSource.getRepository(Book);
+      const book = await bookRepo.findOne({ where: { id: Number(id), user: { id: (req as any).user.id }} });
+      if (!book) return res.status(404).json({ message: "Livro não encontrado" });
+
+      await bookRepo.remove(book);
+      return res.json({ message: "Livro deletado com sucesso" });
+    } catch (err) {
+      return res.status(500).json({ message: "Erro ao deletar livro", error: err });
     }
   }
 }
