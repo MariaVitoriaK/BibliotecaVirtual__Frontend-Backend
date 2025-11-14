@@ -5,29 +5,28 @@ import { useNavigate } from "react-router-dom";
 
 const Generos = () => {
   const [generos, setGeneros] = useState([]);
+  const [books, setBooks] = useState([]);
   const navigate = useNavigate();
 
   const load = async () => {
-    try {
-      const res = await api.get("/generos");
-      setGeneros(res.data);
-    } catch (err) {
-      console.error("Erro ao carregar gêneros:", err);
-    }
+    const resG = await api.get("/generos");
+    const resL = await api.get("/livros");
+
+    setGeneros(resG.data);
+    setBooks(resL.data);
   };
 
   useEffect(() => { load(); }, []);
 
+  const countBooks = (generoId) => {
+    return books.filter(b => b.genero?.id === generoId).length;
+  };
+
   const remove = async (id) => {
     if (!window.confirm("Deseja realmente excluir este gênero?")) return;
 
-    try {
-      await api.delete(`/generos/${id}`);
-      load();
-    } catch (err) {
-      console.error("Erro ao excluir gênero:", err);
-      alert("Erro ao excluir gênero");
-    }
+    await api.delete(`/generos/${id}`);
+    load();
   };
 
   return (
@@ -39,26 +38,16 @@ const Generos = () => {
 
       <ListGroup className="mt-3">
         {generos.map(g => (
-          <ListGroup.Item
-            key={g.id}
-            className="d-flex justify-content-between align-items-center"
-          >
+          <ListGroup.Item key={g.id} className="d-flex justify-content-between">
             <div>
               <strong>{g.nome}</strong>
               <div>
-                <small>
-                  {g.livros?.length ? `${g.livros.length} livros` : "0 livros"}
-                </small>
+                <small>{countBooks(g.id)} livros</small>
               </div>
             </div>
-
             <div>
-              <Button size="sm" onClick={() => navigate(`/generos/editar/${g.id}`)}>
-                Editar
-              </Button>{" "}
-              <Button size="sm" variant="danger" onClick={() => remove(g.id)}>
-                Excluir
-              </Button>
+              <Button size="sm" onClick={() => navigate(`/generos/editar/${g.id}`)}>Editar</Button>{" "}
+              <Button size="sm" variant="danger" onClick={() => remove(g.id)}>Excluir</Button>
             </div>
           </ListGroup.Item>
         ))}

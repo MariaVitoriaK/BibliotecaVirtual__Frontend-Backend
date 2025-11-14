@@ -15,13 +15,24 @@ const Home = () => {
     setBooks(res.data);
   };
 
-  useEffect(() => { if (token) load(); }, [token]);
+  useEffect(() => {
+    if (token) load();
+  }, [token]);
 
   const toggle = async (id, field) => {
     const book = books.find(b => b.id === id);
     const payload = { [field]: !book[field] };
-    const res = await api.put(`/livros/${id}`, payload);
-    setBooks(bs => bs.map(b => b.id === id ? res.data : b));
+
+    await api.put(`/livros/${id}`, payload);
+
+    // Corrigido → apenas altera o campo, não substitui o livro
+    setBooks(bs =>
+      bs.map(b =>
+        b.id === id
+          ? { ...b, ...payload } // mantém autor, gênero e tudo mais
+          : b
+      )
+    );
   };
 
   const remove = async (id) => {
@@ -42,7 +53,12 @@ const Home = () => {
         {books.length === 0 && <p>Nenhum livro ainda. Crie autor/gênero se quiser ou adicione um livro.</p>}
         {books.map(book => (
           <Col key={book.id} xs={12} md={6} lg={4}>
-            <BookCard book={book} onToggleList={toggle} onDelete={remove} onEdit={edit}/>
+            <BookCard
+              book={book}
+              onToggleList={toggle}
+              onDelete={remove}
+              onEdit={edit}
+            />
           </Col>
         ))}
       </Row>
