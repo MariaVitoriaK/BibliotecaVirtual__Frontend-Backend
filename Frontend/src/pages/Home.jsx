@@ -13,6 +13,10 @@ const Home = () => {
   const { token } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
 
+  useEffect(() => {
+    load();
+  }, [token]);
+
   const filteredBooks = books.filter(book =>
   book.titulo.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -22,9 +26,7 @@ const Home = () => {
     setBooks(res.data);
   };
 
-  useEffect(() => {
-    if (token) load();
-  }, [token]);
+
 
   const toggle = async (id, field) => {
     const book = books.find(b => b.id === id);

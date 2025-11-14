@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Button, NavDropdown, Image } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
-import { FaHome, FaBook, FaList, FaInfoCircle, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaBook, FaList, FaInfoCircle, FaUserCircle, FaSignOutAlt, FaAddressBook, FaAddressCard, FaArchive, FaBookOpen } from "react-icons/fa";
 import { motion } from "framer-motion";
 import "../App.css"; // importe o CSS criado
 
@@ -30,7 +30,7 @@ export default function AppNavbar() {
                 <>
                   <Nav.Link as={Link} to="/"><FaHome className="me-1" /> Home</Nav.Link>
                   <Nav.Link as={Link} to="/autores"><FaBook className="me-1" /> Autores</Nav.Link>
-                  <Nav.Link as={Link} to="/generos">📑 Gêneros</Nav.Link>
+                  <Nav.Link as={Link} to="/generos"><FaBookOpen className="me-1" />Gêneros</Nav.Link>
                   <Nav.Link as={Link} to="/listas"><FaList className="me-1" /> Listas</Nav.Link>
                   <Nav.Link as={Link} to="/sobre"><FaInfoCircle className="me-1" /> Sobre</Nav.Link>
                 </>
