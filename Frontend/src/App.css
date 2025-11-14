@@ -1,42 +1,100 @@
 #root {
-  max-width: 1280px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Fundo mais colorido */
+  min-height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+  background-color: #f5f7fa; /* Cor base */
+  background-image: url('https://thumbs.dreamstime.com/b/seamless-pattern-featuring-cartoon-style-bookshelves-perfect-reading-enthusiasts-ideal-use-as-wallpaper-fabric-printing-342094404.jpg');
+ /* https://t3.ftcdn.net/jpg/00/70/76/02/360_F_70760219_SF4b6rXgV6B1EPIrso6RC7HURR9WH7da.jpg
+  https://t3.ftcdn.net/jpg/03/45/05/32/360_F_345053225_j5vgRTLLxRCGOu6yPMTxm8X23PstUva3.jpg
+  https://img.freepik.com/premium-vector/vector-books-seamless-pattern-thin-line-style_104589-3278.jpg?semt=ais_hybrid&w=740&q=80
+  */
+  background-position: left center, right center;
+  background-size: 200px auto;
+  background-repeat:repeat;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+
+/* Navbar Customizada */
+.app-navbar {
+  background: linear-gradient(90deg, #4b6cb7, #182848); /* Gradiente bonito */
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border-radius: 12px; /* Pontas arredondadas */
+  margin-bottom: 2rem;
+    /* ↓ Limitando largura e centralizando ↓ */
+ 
+  margin: 1rem auto 2rem auto; /* topo e base com espaço, centralizada */
+  padding: 0.3rem 1rem; /* um pouco mais compacta verticalmente */
 }
 
+.app-navbar .nav-link {
+  font-weight: 500;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+  color: #fff;
+}
+
+.app-navbar .nav-link:hover {
+  color: #ffd700; /* Destaque amarelo */
+  transform: scale(1.05);
+}
+
+.app-navbar .dropdown-toggle::after {
+  margin-left: 8px;
+}
+
+.app-navbar .user-dropdown .dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.app-navbar .user-img {
+  border: 2px solid #ffd700;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+}
+
+.app-navbar .user-img:hover {
+  transform: scale(1.1);
+}
+
+/* Botões principais */
+.btn-primary {
+  background: linear-gradient(90deg, #4b6cb7, #182848);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #182848, #4b6cb7);
+  transform: scale(1.05);
+}
+
+/* Cards */
 .card {
-  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* ListGroup Items */
+.list-group-item {
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.02);
 }
