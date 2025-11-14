@@ -6,6 +6,7 @@ const AutorForm = () => {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [foto, setFoto] = useState(""); // novo estado
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -17,6 +18,7 @@ const AutorForm = () => {
         setNome(res.data.nome);
         setDataNascimento(res.data.dataNascimento || "");
         setDescricao(res.data.descricao || "");
+        setFoto(res.data.foto || ""); // carregar foto
       });
     }
   }, [id]);
@@ -29,6 +31,7 @@ const AutorForm = () => {
       nome,
       dataNascimento,
       descricao,
+      foto 
     };
 
     if (id) {
@@ -78,6 +81,16 @@ const AutorForm = () => {
             value={descricao}
             onChange={(e) => setDescricao(e.target.value)}
           ></textarea>
+        </div>
+        {/* FOTO */}
+        <div className="mb-3">
+          <label>Foto (URL)</label>
+          <input
+            type="text"
+            className="form-control"
+            value={foto}
+            onChange={(e) => setFoto(e.target.value)}
+          />
         </div>
 
         <button className="btn btn-primary" type="submit">

@@ -6,23 +6,33 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [loading, setLoading] = useState(true);
 
-  // Carrega dados do usuário logado ao iniciar
+  // 🔥 Carrega usuário logado ao iniciar
   useEffect(() => {
-    if (token) {
-      api
-        .get("/usuarios/me")
-        .then((res) => setUser(res.data))
-        .catch(() => logout());
-    }
+    const loadUser = async () => {
+      if (token) {
+        try {
+          const res = await api.get("/usuarios/me");
+          setUser(res.data);
+        } catch (err) {
+          console.error("Erro ao carregar usuário:", err);
+          logout();
+        }
+      }
+      setLoading(false);
+    };
+    loadUser();
   }, [token]);
 
   const login = async (email, senha) => {
     const res = await api.post("/auth/login", { email, senha });
-
     localStorage.setItem("token", res.data.token);
     setToken(res.data.token);
-    setUser(res.data.usuario);
+
+    // Atualiza usuário
+    const userRes = await api.get("/usuarios/me");
+    setUser(userRes.data);
   };
 
   const logout = () => {
@@ -31,23 +41,13 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // 🔥 Função necessária para Configurações.jsx
   const updateUser = (newData) => {
-    setUser((prev) => ({
-      ...prev,
-      ...newData,
-    }));
+    setUser((prev) => ({ ...prev, ...newData }));
   };
 
   return (
     <AuthContext.Provider
-      value={{
-        user,
-        token,
-        login,
-        logout,
-        updateUser, // <-- ESSENCIAL
-      }}
+      value={{ user, token, login, logout, updateUser, loading }}
     >
       {children}
     </AuthContext.Provider>

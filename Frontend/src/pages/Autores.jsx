@@ -38,12 +38,28 @@ const Autores = () => {
       <ListGroup className="mt-3">
         {autores.map(a => (
           <ListGroup.Item key={a.id} className="d-flex justify-content-between">
-            <div>
-              <strong>{a.nome}</strong><br />
-              <small>{a.dataNascimento || "Sem data"}</small>
-              <p>{a.descricao || ""}</p>
-              <small>{countBooks(a.id)} livros</small>
-            </div>
+             {/* Conteúdo do autor com imagem */}
+      <div className="d-flex align-items-center">
+        {/* FOTO */}
+        <img
+          src={a.foto || "https://via.placeholder.com/50"}
+          alt={a.nome}
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: "50%",
+            objectFit: "cover",
+            marginRight: 12,
+          }}
+        />
+
+        <div>
+          <strong>{a.nome}</strong><br />
+          <small>{a.dataNascimento || "Sem data"}</small>
+          <p>{a.descricao || ""}</p>
+          <small>{countBooks(a.id)} livros</small>
+        </div>
+      </div>
 
             <div>
               <Button size="sm" onClick={() => navigate(`/autores/editar/${a.id}`)}>Editar</Button>{" "}

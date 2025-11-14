@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { UsuarioController } from "../controllers/UsuarioController";
 import { authMiddleware } from "../middlewares/authMiddleware";
+import { me, updateUser } from "../controllers/UsuarioController";
 
 const router = Router();
-const controller = new UsuarioController();
 
-// Rotas protegidas
-router.get("/me", authMiddleware, controller.me.bind(controller));
-router.put("/me", authMiddleware, controller.updateMe.bind(controller));
+router.use(authMiddleware);
+
+router.get("/me", me);
+router.put("/", updateUser); // PUT /api/usuarios/
 
 export default router;

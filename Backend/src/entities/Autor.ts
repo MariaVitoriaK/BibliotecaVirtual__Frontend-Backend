@@ -16,6 +16,9 @@ export class Autor {
   @Column({ nullable: true })
   descricao: string;
 
+  @Column({ nullable: true })
+  foto: string;
+
   @ManyToOne(() => Usuario, (usuario) => usuario.autores, { onDelete: "CASCADE" })
   usuario: Usuario;
 
