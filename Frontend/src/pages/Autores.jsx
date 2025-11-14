@@ -36,24 +36,14 @@ const Autores = () => {
       </div>
 
       <ListGroup className="mt-3">
-        {autores.map(a => (
-          <ListGroup.Item key={a.id} className="d-flex justify-content-between">
-             {/* Conteúdo do autor com imagem */}
-      <div className="d-flex align-items-center">
-        {/* FOTO */}
+  {autores.map(a => (
+    <ListGroup.Item key={a.id} className="autor-card">
+      <div className="autor-info">
         <img
           src={a.foto || "https://via.placeholder.com/50"}
           alt={a.nome}
-          style={{
-            width: 50,
-            height: 50,
-            borderRadius: "50%",
-            objectFit: "cover",
-            marginRight: 12,
-          }}
         />
-
-        <div>
+        <div className="autor-details">
           <strong>{a.nome}</strong><br />
           <small>{a.dataNascimento || "Sem data"}</small>
           <p>{a.descricao || ""}</p>
@@ -61,13 +51,14 @@ const Autores = () => {
         </div>
       </div>
 
-            <div>
-              <Button size="sm" onClick={() => navigate(`/autores/editar/${a.id}`)}>Editar</Button>{" "}
-              <Button size="sm" variant="danger" onClick={() => remove(a.id)}>Excluir</Button>
-            </div>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      <div className="autor-buttons">
+        <Button size="sm" onClick={() => navigate(`/autores/editar/${a.id}`)}>Editar</Button>
+        <Button size="sm" variant="danger" onClick={() => remove(a.id)}>Excluir</Button>
+      </div>
+    </ListGroup.Item>
+  ))}
+</ListGroup>
+
     </Container>
   );
 };

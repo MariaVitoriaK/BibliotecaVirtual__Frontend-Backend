@@ -4,14 +4,16 @@ import api from "../api/api";
 import { useNavigate } from "react-router-dom";
 
 const SimpleCard = ({ book, onToggle, onView }) => (
-  <div style={{ border: "1px solid #ddd", padding: 8, margin: 8, width: 180 }}>
-    <img src={book.imagem || "https://via.placeholder.com/160x100"} alt="" style={{ width: "100%", height: 100, objectFit: "cover" }} />
-    <div style={{ marginTop: 6 }}><strong>{book.titulo}</strong></div>
-    <div className="mt-2">
-      <Button size="sm" onClick={() => onToggle(book.id, "isFavorito")}>❤</Button>{' '}
-      <Button size="sm" onClick={() => onToggle(book.id, "isQueroLer")}>↺</Button>{' '}
-      <Button size="sm" onClick={() => onToggle(book.id, "isCompleto")}>✓</Button>{' '}
-      <Button size="sm" variant="info" onClick={() => onView(book.id)}>Ver</Button>
+  <div className="book-card">
+    <img src={book.imagem || "https://via.placeholder.com/160x100"} alt={book.titulo} />
+    <div className="book-card-body">
+      <strong>{book.titulo}</strong>
+      <div className="book-card-buttons">
+        <Button size="sm" variant={book.isFavorito ? "danger" : "outline-danger"} onClick={() => onToggle(book.id, "isFavorito")}>❤</Button>
+        <Button size="sm" variant={book.isQueroLer ? "warning" : "outline-warning"} onClick={() => onToggle(book.id, "isQueroLer")}>↺</Button>
+        <Button size="sm" variant={book.isCompleto ? "success" : "outline-success"} onClick={() => onToggle(book.id, "isCompleto")}>✓</Button>
+        <Button size="sm" variant="info" onClick={() => onView(book.id)}>Ver</Button>
+      </div>
     </div>
   </div>
 );
@@ -42,19 +44,19 @@ const Listas = () => {
   return (
     <Container className="mt-3">
       <h3>Listas</h3>
-      <h5>Favoritos</h5>
+      <h5 className="list-section">Favoritos</h5>
       <Row>
         {favoritos.length === 0 && <p>Nenhum favorito</p>}
         {favoritos.map(b => <Col key={b.id}><SimpleCard book={b} onToggle={toggle} onView={view} /></Col>)}
       </Row>
 
-      <h5 className="mt-3">Quero Ler</h5>
+      <h5 className="list-section">Quero Ler</h5>
       <Row>
         {quero.length === 0 && <p>Nenhum</p>}
         {quero.map(b => <Col key={b.id}><SimpleCard book={b} onToggle={toggle} onView={view} /></Col>)}
       </Row>
 
-      <h5 className="mt-3">Completos</h5>
+      <h5 className="list-section">Completos</h5>
       <Row>
         {completos.length === 0 && <p>Nenhum</p>}
         {completos.map(b => <Col key={b.id}><SimpleCard book={b} onToggle={toggle} onView={view} /></Col>)}

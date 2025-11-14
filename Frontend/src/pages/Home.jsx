@@ -4,11 +4,18 @@ import api from "../api/api";
 import BookCard from "../components/BookCard";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Form } from "react-bootstrap";
+
 
 const Home = () => {
   const [books, setBooks] = useState([]);
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredBooks = books.filter(book =>
+  book.titulo.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const load = async () => {
     const res = await api.get("/livros");
@@ -49,9 +56,18 @@ const Home = () => {
         <Button onClick={() => navigate("/livros/novo")}>Adicionar Livro</Button>
       </div>
 
+      <Form className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Pesquisar livros..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        </Form>
+
       <Row>
         {books.length === 0 && <p>Nenhum livro ainda. Crie autor/gênero se quiser ou adicione um livro.</p>}
-        {books.map(book => (
+        {filteredBooks.map(book => (
           <Col key={book.id} xs={12} md={6} lg={4}>
             <BookCard
               book={book}

@@ -62,7 +62,7 @@ const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
             <div className="d-flex gap-2">
               <Button
                 size="sm"
-                variant={book.isFavorito ? "warning" : "outline-warning"}
+                variant={book.isFavorito ? "danger" : "outline-danger"}
                 onClick={() => onToggleList(book.id, "isFavorito")}
               >
                 ❤
@@ -70,7 +70,7 @@ const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
 
               <Button
                 size="sm"
-                variant={book.isQueroLer ? "success" : "outline-success"}
+                variant={book.isQueroLer ? "warning" : "outline-warning"}
                 onClick={() => onToggleList(book.id, "isQueroLer")}
               >
                 📚
@@ -78,7 +78,7 @@ const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
 
               <Button
                 size="sm"
-                variant={book.isCompleto ? "primary" : "outline-primary"}
+                variant={book.isCompleto ?  "success" : "outline-success"}
                 onClick={() => onToggleList(book.id, "isCompleto")}
               >
                 ✓

@@ -37,21 +37,22 @@ const Generos = () => {
       </div>
 
       <ListGroup className="mt-3">
-        {generos.map(g => (
-          <ListGroup.Item key={g.id} className="d-flex justify-content-between">
-            <div>
-              <strong>{g.nome}</strong>
-              <div>
-                <small>{countBooks(g.id)} livros</small>
-              </div>
-            </div>
-            <div>
-              <Button size="sm" onClick={() => navigate(`/generos/editar/${g.id}`)}>Editar</Button>{" "}
-              <Button size="sm" variant="danger" onClick={() => remove(g.id)}>Excluir</Button>
-            </div>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+  {generos.map(g => (
+    <ListGroup.Item key={g.id} className="genero-card">
+      <div className="genero-info">
+        <strong>{g.nome}</strong>
+        <div>
+          <small>{countBooks(g.id)} livros</small>
+        </div>
+      </div>
+
+      <div className="genero-buttons">
+        <Button size="sm" onClick={() => navigate(`/generos/editar/${g.id}`)}>Editar</Button>
+        <Button size="sm" variant="danger" onClick={() => remove(g.id)}>Excluir</Button>
+      </div>
+    </ListGroup.Item>
+  ))}
+</ListGroup>
     </Container>
   );
 };

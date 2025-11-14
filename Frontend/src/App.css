@@ -98,3 +98,131 @@ body {
   background-color: #f0f0f0;
   transform: scale(1.02);
 }
+
+
+/*Autores*/
+
+.autor-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  margin-bottom: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: #fff;
+}
+
+.autor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.autor-info {
+  display: flex;
+  align-items: center;
+}
+
+.autor-info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 16px;
+  border: 2px solid #4b6cb7;
+}
+
+.autor-details strong {
+  font-size: 1.1rem;
+}
+
+.autor-details p {
+  margin: 4px 0;
+  color: #555;
+}
+
+.autor-buttons button {
+  margin-top: 10px;
+  margin-left: 6px;
+}
+
+
+/*Generos*/
+
+.genero-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  margin-bottom: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: #fff;
+}
+
+.genero-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.genero-info strong {
+  font-size: 1.1rem;
+}
+
+.genero-info small {
+  color: #555;
+}
+
+.genero-buttons button {
+  margin-top: 10px;
+  margin-left: 6px;
+}
+
+
+/*Listas de Livros*/
+
+.book-card {
+  width: 180px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin: 12px 0;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+.book-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.book-card-body {
+  padding: 10px 12px;
+}
+
+.book-card-body strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.book-card-buttons button {
+  margin-right: 2px;
+}
+
+.list-section h5 {
+  margin-top: 24px;
+  color: #4b6cb7;
+  border-bottom: 2px solid #4b6cb7;
+  padding-bottom: 4px;
+}
+
