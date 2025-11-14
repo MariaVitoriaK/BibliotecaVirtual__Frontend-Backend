@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes";
 import livroRoutes from "./routes/livroRoutes";
 import autorRoutes from "./routes/autorRoutes";
 import generoRoutes from "./routes/generoRoutes";
+import usuarioRoutes from "./routes/usuarioRoutes";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/livros", livroRoutes);
 app.use("/api/autores", autorRoutes);
 app.use("/api/generos", generoRoutes);
+app.use("/api/usuarios", usuarioRoutes)
 
 if (process.env.NODE_ENV !== "test") {
   AppDataSource.initialize()

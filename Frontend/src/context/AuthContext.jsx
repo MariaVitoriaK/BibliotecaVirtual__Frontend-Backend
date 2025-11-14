@@ -1,28 +1,54 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
+import api from "../api/api";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
-  // Carregar token quando o app inicia
+  // Carrega dados do usuário logado ao iniciar
   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) setToken(savedToken);
-  }, []);
+    if (token) {
+      api
+        .get("/usuarios/me")
+        .then((res) => setUser(res.data))
+        .catch(() => logout());
+    }
+  }, [token]);
 
-  const login = (newToken) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
+  const login = async (email, senha) => {
+    const res = await api.post("/auth/login", { email, senha });
+
+    localStorage.setItem("token", res.data.token);
+    setToken(res.data.token);
+    setUser(res.data.usuario);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
+    setUser(null);
+  };
+
+  // 🔥 Função necessária para Configurações.jsx
+  const updateUser = (newData) => {
+    setUser((prev) => ({
+      ...prev,
+      ...newData,
+    }));
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        login,
+        logout,
+        updateUser, // <-- ESSENCIAL
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

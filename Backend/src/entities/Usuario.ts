@@ -20,6 +20,10 @@ export class Usuario {
   @Column()
   senha: string;
 
+  // 👉 Foto opcional
+  @Column({ nullable: true })
+  foto: string;
+
   @OneToMany(() => Autor, (autor) => autor.usuario)
   autores: Autor[];
 

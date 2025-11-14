@@ -14,6 +14,7 @@ import Sobre from "./pages/Sobre";
 import AutorForm from "./pages/AutorForm";
 import GeneroForm from "./pages/GeneroForm";
 import RegisterPage from "./pages/RegisterPage";
+import PerfilUsuario from "./pages/PerfilUsuario";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App(){
@@ -36,6 +37,23 @@ function App(){
           <Route path="/autores/editar/:id" element={<ProtectedRoute><AutorForm /></ProtectedRoute>}/>
           <Route path="/generos/novo" element={<ProtectedRoute><GeneroForm /></ProtectedRoute>}/>
           <Route path="/generos/editar/:id" element={<ProtectedRoute><GeneroForm /></ProtectedRoute>}/>
+          <Route
+  path="/perfil"
+  element={
+    <ProtectedRoute>
+      <PerfilUsuario />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/configuracoes/editar"
+  element={
+    <ProtectedRoute>
+      <Configuracoes />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
