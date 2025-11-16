@@ -45,6 +45,7 @@ function Login() {
 
       <form onSubmit={handleLogin}>
         <input
+          name="email"
           type="email"
           placeholder="E-mail"
           value={email}
@@ -53,6 +54,7 @@ function Login() {
         />
 
         <input
+          name="password"
           type="password"
           placeholder="Senha"
           value={senha}

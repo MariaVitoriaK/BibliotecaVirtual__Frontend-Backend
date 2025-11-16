@@ -66,7 +66,7 @@ const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
             </div>
 
             <div className="d-flex gap-2">
-                <Button as={Link} to={`/livros/${book.id}`} size="sm" variant="info">
+                <Button as={Link} to={`/livros/${book.id}`} size="sm" variant="info" data-cy={`ver-livro-btn-${book.id}`}>
                 Ver
               </Button>
 
@@ -74,6 +74,7 @@ const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
                 size="sm"
                 variant="secondary"
                 onClick={() => onEdit(book.id)}
+                data-cy={`editar-livro-btn-${book.id}`}
               >
                 ✎
               </Button>
@@ -82,6 +83,7 @@ const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
                 size="sm"
                 variant="danger"
                 onClick={() => onDelete(book.id)}
+                data-cy={`excluir-livro-btn-${book.id}`}
               >
                 🗑
               </Button>
