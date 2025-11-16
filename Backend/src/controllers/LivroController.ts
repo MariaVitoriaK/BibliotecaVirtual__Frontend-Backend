@@ -50,12 +50,52 @@ export const createLivro = async (req: Request, res: Response) => {
 };
 
 export const updateLivro = async (req: Request, res: Response) => {
-  const livro = await livroRepository.findOneBy({ id: Number(req.params.id) });
-  if (!livro) return res.status(404).json({ message: "Livro não encontrado" });
-  livroRepository.merge(livro, req.body);
-  await livroRepository.save(livro);
-  return res.json(livro);
+  const { id } = req.params;
+
+  const livro = await livroRepository.findOne({
+    where: { id: Number(id) },
+    relations: ["autor", "genero"],
+  });
+
+  if (!livro) {
+    return res.status(404).json({ message: "Livro não encontrado" });
+  }
+
+  // Atualizar SOMENTE os campos presentes no req.body
+  if (req.body.titulo !== undefined) livro.titulo = req.body.titulo;
+  if (req.body.descricao !== undefined) livro.descricao = req.body.descricao;
+  if (req.body.imagem !== undefined) livro.imagem = req.body.imagem;
+
+  // Flags de listas
+  if (req.body.isFavorito !== undefined) livro.isFavorito = req.body.isFavorito;
+  if (req.body.isQueroLer !== undefined) livro.isQueroLer = req.body.isQueroLer;
+  if (req.body.isCompleto !== undefined) livro.isCompleto = req.body.isCompleto;
+
+  // Atualizar autor
+  if (req.body.autorId !== undefined) {
+    if (req.body.autorId === null) {
+      livro.autor = null;
+    } else {
+      const autor = await autorRepository.findOneBy({ id: req.body.autorId });
+      livro.autor = autor || null;
+    }
+  }
+
+  // Atualizar genero
+  if (req.body.generoId !== undefined) {
+    if (req.body.generoId === null) {
+      livro.genero = null;
+    } else {
+      const genero = await generoRepository.findOneBy({ id: req.body.generoId });
+      livro.genero = genero || null;
+    }
+  }
+
+  const salvo = await livroRepository.save(livro);
+  return res.json(salvo);
 };
+
+
 
 export const deleteLivro = async (req: Request, res: Response) => {
   const livro = await livroRepository.findOneBy({ id: Number(req.params.id) });

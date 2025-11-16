@@ -11,7 +11,7 @@ export class Livro {
   @Column()
   titulo: string;
 
-  @Column({ nullable: true })
+  @Column({type: "text", nullable: true })
   descricao: string;
 
   @Column({ nullable: true })
@@ -30,8 +30,8 @@ export class Livro {
   usuario: Usuario;
 
   @ManyToOne(() => Autor, (autor) => autor.livros, { nullable: true, onDelete: "SET NULL" })
-  autor: Autor;
+  autor: Autor | null;
 
   @ManyToOne(() => Genero, (genero) => genero.livros, { nullable: true, onDelete: "SET NULL" })
-  genero: Genero;
+  genero: Genero | null;
 }

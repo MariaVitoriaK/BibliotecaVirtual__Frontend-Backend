@@ -48,7 +48,7 @@ const BookForm = () => {
 
         <Form.Group className="mb-2">
           <Form.Label>Descrição</Form.Label>
-          <Form.Control as="textarea" value={descricao} onChange={e => setDescricao(e.target.value)} rows={3}/>
+          <Form.Control as="textarea" value={descricao} onChange={e => setDescricao(e.target.value)} rows={10}/>
         </Form.Group>
 
         <Form.Group className="mb-2">

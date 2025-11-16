@@ -45,22 +45,49 @@ const Listas = () => {
     <Container className="mt-3">
       <h3>Listas</h3>
       <h5 className="list-section">Favoritos</h5>
-      <Row>
-        {favoritos.length === 0 && <p>Nenhum favorito</p>}
-        {favoritos.map(b => <Col key={b.id}><SimpleCard book={b} onToggle={toggle} onView={view} /></Col>)}
-      </Row>
+{favoritos.length === 0 && <p>Nenhum favorito</p>}
 
-      <h5 className="list-section">Quero Ler</h5>
-      <Row>
-        {quero.length === 0 && <p>Nenhum</p>}
-        {quero.map(b => <Col key={b.id}><SimpleCard book={b} onToggle={toggle} onView={view} /></Col>)}
-      </Row>
+<div className="horizontal-list">
+  {favoritos.map(b => (
+    <SimpleCard 
+      key={b.id} 
+      book={b} 
+      onToggle={toggle} 
+      onView={view} 
+    />
+  ))}
+</div>
 
-      <h5 className="list-section">Completos</h5>
-      <Row>
-        {completos.length === 0 && <p>Nenhum</p>}
-        {completos.map(b => <Col key={b.id}><SimpleCard book={b} onToggle={toggle} onView={view} /></Col>)}
-      </Row>
+
+     <h5 className="list-section">Quero Ler</h5>
+{quero.length === 0 && <p>Nenhum</p>}
+
+<div className="horizontal-list">
+  {quero.map(b => (
+    <SimpleCard 
+      key={b.id} 
+      book={b} 
+      onToggle={toggle} 
+      onView={view} 
+    />
+  ))}
+</div>
+
+
+<h5 className="list-section">Completos</h5>
+{completos.length === 0 && <p>Nenhum</p>}
+
+<div className="horizontal-list">
+  {completos.map(b => (
+    <SimpleCard 
+      key={b.id} 
+      book={b} 
+      onToggle={toggle} 
+      onView={view} 
+    />
+  ))}
+</div>
+
     </Container>
   );
 };

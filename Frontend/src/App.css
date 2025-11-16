@@ -127,6 +127,8 @@ body {
 .autor-info img {
   width: 80px;
   height: 80px;
+  min-width: 80px;
+  min-height: 80px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 16px;
@@ -200,7 +202,7 @@ body {
 
 .book-card img {
   width: 100%;
-  height: 200px;
+  height: 260px;
   object-fit: cover;
 }
 
@@ -219,6 +221,8 @@ body {
   margin-right: 2px;
 }
 
+
+
 .list-section h5 {
   margin-top: 24px;
   color: #4b6cb7;
@@ -226,3 +230,80 @@ body {
   padding-bottom: 4px;
 }
 
+
+
+/* Container horizontal */
+.horizontal-list {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+
+  /* remove barra feia do navegador */
+  scrollbar-width: thin;
+  scrollbar-color: #4b6cb7 transparent;
+}
+
+/* Estilo da scrollbar (Chrome) */
+.horizontal-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.horizontal-list::-webkit-scrollbar-thumb {
+  background: #4b6cb7;
+  border-radius: 10px;
+}
+
+.horizontal-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Impedir que quebre para baixo */
+.horizontal-list .book-card {
+  flex: 0 0 auto;
+}
+
+
+
+
+/*Livros Detalhes*/
+
+.livro-detalhes-card {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.4s ease-in-out;
+
+}
+
+.livro-detalhes-img {
+  width: 260px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.livro-info {
+  font-size: 1.1rem;
+  line-height: 1.6;
+    white-space: pre-wrap;
+  overflow: visible !important;
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: unset !important;
+}
+
+.livro-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
