@@ -52,8 +52,8 @@ const Autores = () => {
       </div>
 
       <div className="autor-buttons">
-        <Button size="sm" onClick={() => navigate(`/autores/editar/${a.id}`)}>Editar</Button>
-        <Button size="sm" variant="danger" onClick={() => remove(a.id)}>Excluir</Button>
+        <Button data-cy={`editar-autor-btn-${a.id}`} size="sm" onClick={() => navigate(`/autores/editar/${a.id}`)}>Editar</Button>
+        <Button data-cy={`excluir-autor-btn-${a.id}`} size="sm" variant="danger" onClick={() => remove(a.id)}>Excluir</Button>
       </div>
     </ListGroup.Item>
   ))}

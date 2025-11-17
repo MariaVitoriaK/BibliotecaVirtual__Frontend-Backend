@@ -53,6 +53,7 @@ const AutorForm = () => {
         <div className="mb-3">
           <label>Nome</label>
           <input
+            name="nome"
             type="text"
             className="form-control"
             value={nome}
@@ -65,6 +66,7 @@ const AutorForm = () => {
         <div className="mb-3">
           <label>Data de Nascimento</label>
           <input
+            name="date"
             type="date"
             className="form-control"
             value={dataNascimento}
@@ -86,6 +88,7 @@ const AutorForm = () => {
         <div className="mb-3">
           <label>Foto (URL)</label>
           <input
+            name="foto"
             type="text"
             className="form-control"
             value={foto}
