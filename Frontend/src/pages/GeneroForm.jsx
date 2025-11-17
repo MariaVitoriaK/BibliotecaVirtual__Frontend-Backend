@@ -33,6 +33,7 @@ const GeneroForm = () => {
 
       <form onSubmit={handleSubmit}>
         <input
+          name="nome"
           type="text"
           placeholder="Nome do Gênero"
           value={nome}

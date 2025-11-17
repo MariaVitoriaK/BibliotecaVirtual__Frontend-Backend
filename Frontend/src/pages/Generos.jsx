@@ -47,8 +47,8 @@ const Generos = () => {
       </div>
 
       <div className="genero-buttons">
-        <Button size="sm" onClick={() => navigate(`/generos/editar/${g.id}`)}>Editar</Button>
-        <Button size="sm" variant="danger" onClick={() => remove(g.id)}>Excluir</Button>
+        <Button  data-cy={`editar-genero-btn-${g.id}`} size="sm" onClick={() => navigate(`/generos/editar/${g.id}`)}>Editar</Button>
+        <Button data-cy={`excluir-genero-btn-${g.id}`}  size="sm" variant="danger" onClick={() => remove(g.id)}>Excluir</Button>
       </div>
     </ListGroup.Item>
   ))}
