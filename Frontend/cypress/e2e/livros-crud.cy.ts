@@ -5,8 +5,7 @@ describe("CRUD de Livros", () => {
     titulo: "Teste Livro",
     descricao: "Descrição longa para testar.",
     imagem: "https://picsum.photos/200",
-    autor: "1",
-    genero: "1"
+   
   };
 
   const livroEditado = {
@@ -32,8 +31,7 @@ describe("CRUD de Livros", () => {
     cy.get("textarea").type(livro.descricao);
     cy.get('input').eq(1).type(livro.imagem);
 
-    cy.get("select").first().select(livro.autor);
-    cy.get("select").eq(1).select(livro.genero);
+
 
     cy.contains("Salvar").click();
 
