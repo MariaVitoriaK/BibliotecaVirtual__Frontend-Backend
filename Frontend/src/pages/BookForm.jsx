@@ -68,6 +68,7 @@ const BookForm = () => {
           <Form.Group className="mb-3">
             <Form.Label><strong>Título *</strong></Form.Label>
             <Form.Control
+              name="titulo"
               className="form-input"
               value={titulo}
               onChange={e => setTitulo(e.target.value)}
@@ -78,6 +79,7 @@ const BookForm = () => {
           <Form.Group className="mb-3">
             <Form.Label><strong>Descrição</strong></Form.Label>
             <Form.Control
+              name="descricao"
               as="textarea"
               rows={6}
               className="form-input"
@@ -89,6 +91,7 @@ const BookForm = () => {
           <Form.Group className="mb-3">
             <Form.Label><strong>Imagem (URL)</strong></Form.Label>
             <Form.Control
+              name="imagem"
               className="form-input"
               value={imagem}
               onChange={e => setImagem(e.target.value)}

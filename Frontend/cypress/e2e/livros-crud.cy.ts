@@ -17,19 +17,23 @@ describe("CRUD de Livros", () => {
     cy.visit("http://localhost:5173/login");  
     cy.get("input[name=email]").type("teste@email.com");
     cy.get("input[name=password]").type("123");
-   cy.get("button[type=submit]").click();
-   cy.url().should("eq", "http://localhost:5173/");
+    cy.get("button[type=submit]").click();
+    cy.url().should("eq", "http://localhost:5173/");
 
   });
-
+ 
   it("Deve criar um novo livro", () => {
     cy.visit("http://localhost:5173/livros/novo");
+    // título
+    cy.get('input[name="titulo"]').type(livro.titulo);
 
-    cy.get('input').first().type(livro.titulo);
-    cy.get("textarea").type(livro.descricao);
-    cy.get('input').eq(1).type(livro.imagem);
+    // descrição
+    cy.get('textarea[name="descricao"]').type(livro.descricao);
 
-    cy.contains("Salvar").click();
+    // imagem
+    cy.get('input[name="imagem"]').type(livro.imagem);
+
+    cy.get('button[type="submit"]').click();
 
     cy.contains(livro.titulo).should("exist");
   });
@@ -51,7 +55,7 @@ describe("CRUD de Livros", () => {
   cy.get("input").first().clear().type(livroEditado.titulo);
   cy.get("textarea").clear().type(livroEditado.descricao);
 
-  cy.contains("Salvar").click();
+  cy.contains("Salvar Alterações").click();
 
   cy.contains(livroEditado.titulo).should("exist");
   });

@@ -63,6 +63,7 @@ const AutorForm = () => {
           <Form.Group className="mb-3">
             <Form.Label><strong>Nome</strong></Form.Label>
             <Form.Control
+              name="nome"
               className="form-input"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
@@ -73,6 +74,7 @@ const AutorForm = () => {
           <Form.Group className="mb-3">
             <Form.Label><strong>Data de Nascimento</strong></Form.Label>
             <Form.Control
+              name="date"
               type="date"
               className="form-input"
               value={dataNascimento}
@@ -94,6 +96,7 @@ const AutorForm = () => {
           <Form.Group className="mb-3">
             <Form.Label><strong>Foto (URL)</strong></Form.Label>
             <Form.Control
+              name="foto"
               className="form-input"
               value={foto}
               onChange={(e) => setFoto(e.target.value)}

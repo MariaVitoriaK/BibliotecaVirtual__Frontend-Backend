@@ -34,6 +34,7 @@ export default function RegisterPage() {
 
         <form onSubmit={handleRegister}>
           <input
+            name="nome"
             className="form-control form-input mb-3"
             placeholder="Nome completo"
             value={nome}
@@ -42,6 +43,7 @@ export default function RegisterPage() {
           />
 
           <input
+            name="username"
             className="form-control form-input mb-3"
             placeholder="Usuário"
             value={username}
@@ -50,6 +52,7 @@ export default function RegisterPage() {
           />
 
           <input
+            name="email"
             className="form-control form-input mb-3"
             type="email"
             placeholder="E-mail"
@@ -59,6 +62,7 @@ export default function RegisterPage() {
           />
 
           <input
+            name="password"
             className="form-control form-input mb-4"
             type="password"
             placeholder="Senha"
