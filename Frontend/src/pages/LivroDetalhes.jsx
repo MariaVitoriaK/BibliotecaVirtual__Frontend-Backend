@@ -49,7 +49,6 @@ const LivroDetalhes = () => {
           <p>{livro.descricao || "Sem descrição"}</p>
         </div>
 
-        {/* Botões */}
         <div className="livro-botoes">
 
           <Button

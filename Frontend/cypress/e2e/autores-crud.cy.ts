@@ -14,7 +14,6 @@ describe("CRUD de Autores", () => {
     foto: "https://picsum.photos/300"
   };
 
-  // login antes dos testes
   before(() => {
     cy.visit("http://localhost:5173/login");
     cy.get("input[name=email]").type("teste@email.com");
@@ -33,7 +32,6 @@ describe("CRUD de Autores", () => {
 
     cy.contains("Criar Autor").click();
 
-    // verifica se o autor apareceu na lista
     cy.contains(autor.nome).should("exist");
   });
 
@@ -46,7 +44,6 @@ describe("CRUD de Autores", () => {
 
     cy.visit("http://localhost:5173/autores");
 
-    // clica no último botão de editar (último criado)
     cy.get('[data-cy^="editar-autor-btn-"]').last().click();
 
     cy.get("input[name=nome]").clear().type(autorEditado.nome);
@@ -56,7 +53,6 @@ describe("CRUD de Autores", () => {
 
     cy.contains("Salvar Alterações").click();
 
-    // verifica se o autor editado apareceu
     cy.contains(autorEditado.nome).should("exist");
   });
 
@@ -69,13 +65,10 @@ describe("CRUD de Autores", () => {
 
     cy.visit("http://localhost:5173/autores");
 
-    // clica no último botão de excluir
     cy.get('[data-cy^="excluir-autor-btn-"]').last().click();
 
-    // confirma o alert do navegador
     cy.on("window:confirm", () => true);
 
-    // garante que o autor não existe mais
     cy.contains(autorEditado.nome).should("not.exist");
   });
 

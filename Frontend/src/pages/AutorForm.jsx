@@ -1,38 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/api";
+import { Container, Form, Card, Button } from "react-bootstrap";
 
 const AutorForm = () => {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [foto, setFoto] = useState(""); // novo estado
+  const [foto, setFoto] = useState("");
 
   const navigate = useNavigate();
   const { id } = useParams();
+  const isEdit = Boolean(id);
 
-  // CARREGAR AUTOR PARA EDIÇÃO
   useEffect(() => {
     if (id) {
       api.get(`/autores/${id}`).then((res) => {
         setNome(res.data.nome);
         setDataNascimento(res.data.dataNascimento || "");
         setDescricao(res.data.descricao || "");
-        setFoto(res.data.foto || ""); // carregar foto
+        setFoto(res.data.foto || "");
       });
     }
   }, [id]);
 
-  // ENVIAR FORMULÁRIO
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-      nome,
-      dataNascimento,
-      descricao,
-      foto 
-    };
+    const payload = { nome, dataNascimento, descricao, foto };
 
     if (id) {
       await api.put(`/autores/${id}`, payload);
@@ -44,63 +39,74 @@ const AutorForm = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>{id ? "Editar Autor" : "Novo Autor"}</h2>
+    <Container className="mt-4 d-flex justify-content-center">
+      <Card className="p-4 shadow-lg form-card">
 
-      <form onSubmit={handleSubmit} className="mt-3">
+        <h3 className="text-center mb-3 form-title">
+          {isEdit ? "✏️ Editar Autor" : "🖋️ Novo Autor"}
+        </h3>
 
-        {/* NOME */}
-        <div className="mb-3">
-          <label>Nome</label>
-          <input
-            name="nome"
-            type="text"
-            className="form-control"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-          />
-        </div>
+        {/* Preview da foto */}
+        {foto && (
+          <div className="text-center mb-3">
+            <img
+              src={foto}
+              alt="Preview"
+              className="form-image-preview"
+              onError={(e) => (e.target.style.display = "none")}
+            />
+          </div>
+        )}
 
-        {/* DATA DE NASCIMENTO */}
-        <div className="mb-3">
-          <label>Data de Nascimento</label>
-          <input
-            name="date"
-            type="date"
-            className="form-control"
-            value={dataNascimento}
-            onChange={(e) => setDataNascimento(e.target.value)}
-          />
-        </div>
+        <Form onSubmit={handleSubmit}>
 
-        {/* DESCRIÇÃO */}
-        <div className="mb-3">
-          <label>Descrição</label>
-          <textarea
-            className="form-control"
-            rows={3}
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-          ></textarea>
-        </div>
-        {/* FOTO */}
-        <div className="mb-3">
-          <label>Foto (URL)</label>
-          <input
-            name="foto"
-            type="text"
-            className="form-control"
-            value={foto}
-            onChange={(e) => setFoto(e.target.value)}
-          />
-        </div>
+          <Form.Group className="mb-3">
+            <Form.Label><strong>Nome</strong></Form.Label>
+            <Form.Control
+              className="form-input"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+          </Form.Group>
 
-        <button className="btn btn-primary" type="submit">
-          {id ? "Salvar Alterações" : "Criar Autor"}
-        </button>
-      </form>
-    </div>
+          <Form.Group className="mb-3">
+            <Form.Label><strong>Data de Nascimento</strong></Form.Label>
+            <Form.Control
+              type="date"
+              className="form-input"
+              value={dataNascimento}
+              onChange={(e) => setDataNascimento(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label><strong>Descrição</strong></Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={4}
+              className="form-input"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label><strong>Foto (URL)</strong></Form.Label>
+            <Form.Control
+              className="form-input"
+              value={foto}
+              onChange={(e) => setFoto(e.target.value)}
+            />
+          </Form.Group>
+
+          <Button type="submit" className="w-100 mt-2 btn-primary">
+            {isEdit ? "Salvar Alterações" : "Criar Autor"}
+          </Button>
+
+        </Form>
+      </Card>
+    </Container>
   );
 };
 

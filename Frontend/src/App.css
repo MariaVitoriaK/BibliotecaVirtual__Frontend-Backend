@@ -2,25 +2,24 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Fundo mais colorido */
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); 
   min-height: 100vh;
 }
 
 body {
-  background-color: #f5f7fa; /* Cor base */
+  background-color: #f5f7fa;
   background-image: url('https://thumbs.dreamstime.com/b/seamless-pattern-featuring-cartoon-style-bookshelves-perfect-reading-enthusiasts-ideal-use-as-wallpaper-fabric-printing-342094404.jpg');
- /* https://t3.ftcdn.net/jpg/00/70/76/02/360_F_70760219_SF4b6rXgV6B1EPIrso6RC7HURR9WH7da.jpg
+ /* 
+  https://t3.ftcdn.net/jpg/00/70/76/02/360_F_70760219_SF4b6rXgV6B1EPIrso6RC7HURR9WH7da.jpg
   https://t3.ftcdn.net/jpg/03/45/05/32/360_F_345053225_j5vgRTLLxRCGOu6yPMTxm8X23PstUva3.jpg
   https://img.freepik.com/premium-vector/vector-books-seamless-pattern-thin-line-style_104589-3278.jpg?semt=ais_hybrid&w=740&q=80
-  */
+*/
   background-position: left center, right center;
   background-size: 200px auto;
   background-repeat:repeat;
 }
 
-
-
-/* Navbar Customizada */
+/* Navbar */
 .app-navbar {
   background: linear-gradient(90deg, #4b6cb7, #182848); /* Gradiente bonito */
   backdrop-filter: blur(8px);
@@ -77,6 +76,7 @@ body {
 }
 
 /* Cards */
+
 .card {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -88,6 +88,7 @@ body {
 }
 
 /* ListGroup Items */
+
 .list-group-item {
   border-radius: 8px;
   margin-bottom: 8px;
@@ -98,7 +99,6 @@ body {
   background-color: #f0f0f0;
   transform: scale(1.02);
 }
-
 
 /*Autores*/
 
@@ -149,8 +149,7 @@ body {
   margin-left: 6px;
 }
 
-
-/*Generos*/
+/*Gêneros*/
 
 .genero-card {
   display: flex;
@@ -181,7 +180,6 @@ body {
   margin-top: 10px;
   margin-left: 6px;
 }
-
 
 /*Listas de Livros*/
 
@@ -221,8 +219,6 @@ body {
   margin-right: 2px;
 }
 
-
-
 .list-section h5 {
   margin-top: 24px;
   color: #4b6cb7;
@@ -230,21 +226,17 @@ body {
   padding-bottom: 4px;
 }
 
-
-
-/* Container horizontal */
+/*Listas - Scroll*/
 .horizontal-list {
   display: flex;
   gap: 16px;
   overflow-x: auto;
   padding-bottom: 10px;
-
-  /* remove barra feia do navegador */
   scrollbar-width: thin;
   scrollbar-color: #4b6cb7 transparent;
 }
 
-/* Estilo da scrollbar (Chrome) */
+/* Scrollbar */
 .horizontal-list::-webkit-scrollbar {
   height: 8px;
 }
@@ -258,13 +250,9 @@ body {
   background: transparent;
 }
 
-/* Impedir que quebre para baixo */
 .horizontal-list .book-card {
   flex: 0 0 auto;
 }
-
-
-
 
 /*Livros Detalhes*/
 
@@ -306,4 +294,41 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(15px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* FORMULÁRIOS */
+.form-card {
+  max-width: 650px;
+  width: 100%;
+  border-radius: 16px;
+  background: #ffffffee;
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.form-title {
+  font-weight: 700;
+  color: #182848;
+  text-shadow: 0 1px 1px #00000015;
+}
+
+.form-input {
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid #b6c4e0;
+  transition: 0.2s;
+}
+
+.form-input:focus {
+  border-color: #4b6cb7;
+  box-shadow: 0 0 6px rgba(75, 108, 183, 0.3);
+}
+
+.form-image-preview {
+  width: 160px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  animation: fadeIn 0.4s ease;
 }

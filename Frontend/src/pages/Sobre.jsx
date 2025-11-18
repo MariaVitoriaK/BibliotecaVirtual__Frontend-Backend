@@ -4,8 +4,8 @@ import { Container } from "react-bootstrap";
 const Sobre = () => (
   <Container className="mt-3">
     <h3>Sobre</h3>
-    <p>Projeto Biblioteca Virtual — Desenvolvido por Vitória</p>
-    <p>Resumo curto sobre o objetivo do projeto e os integrantes.</p>
+    <p>Projeto Biblioteca Virtual — Desenvolvido por Maria Vitória Kuhn</p>
+    <p>A proposta consiste em uma biblioteca virtual pessoal, na qual cada usuário pode cadastrar autores, gêneros e livros de acordo com suas preferências.</p>
   </Container>
 );
 

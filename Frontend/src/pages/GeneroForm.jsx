@@ -28,23 +28,31 @@ const GeneroForm = () => {
   };
 
   return (
-    <div>
-      <h2>{id ? "Editar Gênero" : "Novo Gênero"}</h2>
+    <div className="d-flex justify-content-center mt-4">
+      <div className="card p-4 shadow form-card">
+        <h2 className="text-center mb-3 form-title">
+          {id ? "Editar Gênero" : "Novo Gênero"}
+        </h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="nome"
-          type="text"
-          placeholder="Nome do Gênero"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="fw-semibold">Nome do Gênero</label>
+            <input
+              name="nome"
+              type="text"
+              placeholder="Digite o nome do gênero"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+              className="form-control form-input"
+            />
+          </div>
 
-        <button type="submit">
-          {id ? "Salvar Alterações" : "Criar Gênero"}
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary w-100 mt-2">
+            {id ? "Salvar Alterações" : "Criar Gênero"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

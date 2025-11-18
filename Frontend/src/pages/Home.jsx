@@ -24,12 +24,10 @@ const Home = () => {
     setBooks(res.data);
   };
 
-  // 🔥 Agora vem ANTES da paginação
   const filteredBooks = books.filter(book =>
     book.titulo.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // 🔥 Paginação agora usa filteredBooks sem causar erro
   const indexOfLast = currentPage * booksPerPage;
   const indexOfFirst = indexOfLast - booksPerPage;
   const currentBooks = filteredBooks.slice(indexOfFirst, indexOfLast);
@@ -69,7 +67,7 @@ const Home = () => {
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            setCurrentPage(1); // reseta paginação quando busca
+            setCurrentPage(1); 
           }}
         />
       </Form>
@@ -89,7 +87,6 @@ const Home = () => {
         ))}
       </Row>
 
-      {/* paginação */}
       <div className="d-flex justify-content-center my-4">
         <Pagination>
           <Pagination.Prev

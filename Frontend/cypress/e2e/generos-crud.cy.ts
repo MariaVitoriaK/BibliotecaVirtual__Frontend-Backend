@@ -8,7 +8,6 @@ describe("CRUD de Gêneros", () => {
     nome: "Gênero Editado"
   };
 
-  // login antes dos testes
   before(() => {
     cy.visit("http://localhost:5173/login");
     cy.get("input[name=email]").type("teste@email.com");
@@ -24,7 +23,6 @@ describe("CRUD de Gêneros", () => {
 
     cy.contains("Criar Gênero").click();
 
-    // verifica se o gênero apareceu na lista
     cy.contains(genero.nome).should("exist");
   });
 
@@ -36,14 +34,12 @@ describe("CRUD de Gêneros", () => {
     cy.url().should("eq", "http://localhost:5173/");
     cy.visit("http://localhost:5173/generos");
 
-    // clica no último botão de editar (último criado)
     cy.get('[data-cy^="editar-genero-btn-"]').last().click();
 
     cy.get("input[name=nome]").clear().type(generoEditado.nome);
 
     cy.contains("Salvar").click();
 
-    // verifica se o nome editado apareceu
     cy.contains(generoEditado.nome).should("exist");
   });
 
@@ -55,7 +51,6 @@ describe("CRUD de Gêneros", () => {
     cy.url().should("eq", "http://localhost:5173/");
     cy.visit("http://localhost:5173/generos");
 
-    // clica no último botão de excluir
     cy.get('[data-cy^="excluir-genero-btn-"]').last().click();
   });
 

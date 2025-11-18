@@ -6,7 +6,6 @@ export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-
   const navigate = useNavigate();
 
   async function handleRegister(e: React.FormEvent<HTMLFormElement>) {
@@ -29,39 +28,54 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="auth-container">
-      <h2>Criar conta</h2>
+    <div className="d-flex justify-content-center mt-5">
+      <div className="card p-4 shadow form-card">
+        <h2 className="text-center form-title mb-4">Criar Conta</h2>
 
-      <form onSubmit={handleRegister}>
-        <input
-          placeholder="Nome completo"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-        <input
-          placeholder="Usuário"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          placeholder="E-mail"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          placeholder="Senha"
-          type="password"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-        />
+        <form onSubmit={handleRegister}>
+          <input
+            className="form-control form-input mb-3"
+            placeholder="Nome completo"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />
 
-        <button type="submit">Registrar</button>
-      </form>
+          <input
+            className="form-control form-input mb-3"
+            placeholder="Usuário"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
 
-      <p>
-        Já tem conta? <Link to="/login">Entrar</Link>
-      </p>
+          <input
+            className="form-control form-input mb-3"
+            type="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <input
+            className="form-control form-input mb-4"
+            type="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            required
+          />
+
+          <button className="btn btn-primary w-100" type="submit">
+            Registrar
+          </button>
+        </form>
+
+        <p className="text-center mt-3">
+          Já tem conta? <Link to="/login">Entrar</Link>
+        </p>
+      </div>
     </div>
   );
 }
