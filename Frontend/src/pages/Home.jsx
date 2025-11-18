@@ -5,28 +5,35 @@ import BookCard from "../components/BookCard";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Form } from "react-bootstrap";
-
+import { Pagination } from "react-bootstrap";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
   const navigate = useNavigate();
   const { token } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 9;
 
   useEffect(() => {
     load();
   }, [token]);
-
-  const filteredBooks = books.filter(book =>
-  book.titulo.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const load = async () => {
     const res = await api.get("/livros");
     setBooks(res.data);
   };
 
+  // 🔥 Agora vem ANTES da paginação
+  const filteredBooks = books.filter(book =>
+    book.titulo.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
+  // 🔥 Paginação agora usa filteredBooks sem causar erro
+  const indexOfLast = currentPage * booksPerPage;
+  const indexOfFirst = indexOfLast - booksPerPage;
+  const currentBooks = filteredBooks.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
 
   const toggle = async (id, field) => {
     const book = books.find(b => b.id === id);
@@ -34,12 +41,9 @@ const Home = () => {
 
     await api.put(`/livros/${id}`, payload);
 
-    // Corrigido → apenas altera o campo, não substitui o livro
     setBooks(bs =>
       bs.map(b =>
-        b.id === id
-          ? { ...b, ...payload } // mantém autor, gênero e tudo mais
-          : b
+        b.id === id ? { ...b, ...payload } : b
       )
     );
   };
@@ -63,13 +67,17 @@ const Home = () => {
           type="text"
           placeholder="Pesquisar livros..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1); // reseta paginação quando busca
+          }}
         />
-        </Form>
+      </Form>
 
       <Row>
-        {books.length === 0 && <p>Nenhum livro ainda. Crie autor/gênero se quiser ou adicione um livro.</p>}
-        {filteredBooks.map(book => (
+        {currentBooks.length === 0 && <p>Nenhum livro encontrado, recomendado criar Autor e Gênero primeiro.</p>}
+
+        {currentBooks.map(book => (
           <Col key={book.id} xs={12} md={6} lg={4}>
             <BookCard
               book={book}
@@ -80,6 +88,31 @@ const Home = () => {
           </Col>
         ))}
       </Row>
+
+      {/* paginação */}
+      <div className="d-flex justify-content-center my-4">
+        <Pagination>
+          <Pagination.Prev
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          />
+
+          {[...Array(totalPages)].map((_, i) => (
+            <Pagination.Item
+              key={i + 1}
+              active={currentPage === i + 1}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </Pagination.Item>
+          ))}
+
+          <Pagination.Next
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          />
+        </Pagination>
+      </div>
     </Container>
   );
 };
