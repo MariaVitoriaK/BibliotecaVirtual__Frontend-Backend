@@ -8,8 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [loading, setLoading] = useState(true);
   
-
-  // 🔥 Carrega usuário logado ao iniciar
   useEffect(() => {
     const loadUser = async () => {
       if (token) {
@@ -31,7 +29,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("token", res.data.token);
     setToken(res.data.token);
 
-    // Atualiza usuário
     const userRes = await api.get("/usuarios/me");
     setUser(userRes.data);
   };

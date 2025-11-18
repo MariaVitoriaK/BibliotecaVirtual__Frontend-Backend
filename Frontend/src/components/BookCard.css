@@ -1,10 +1,8 @@
-/* Container do Card com animação */
 .bookcard-container {
   cursor: pointer;
     pointer-events: auto;
 }
 
-/* Estilização geral do Card */
 .bookcard {
   width: 18rem;
   border-radius: 12px;
@@ -12,12 +10,8 @@
   cursor: pointer;
   transition: 0.3s;
   margin-bottom: 30px;
-
-
 }
 
-
-/* Imagem do Card */
 .bookcard-img {
   height: 390px;
   width: 100%;
@@ -25,16 +19,13 @@
   overflow: hidden;
 }
 
-/* Descrição curta */
 .bookcard-descricao {
   display: -webkit-box;
-  -webkit-line-clamp: 3;   /* quantas linhas deseja */
+  -webkit-line-clamp: 3;  
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-   max-height: 4.5em; /* ajusta conforme o tamanho da fonte */
-   
- 
+   max-height: 4.5em;
 }
 
 .bookcard button {

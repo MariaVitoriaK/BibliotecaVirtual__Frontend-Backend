@@ -21,15 +21,13 @@ body {
 
 /* Navbar */
 .app-navbar {
-  background: linear-gradient(90deg, #4b6cb7, #182848); /* Gradiente bonito */
+  background: linear-gradient(90deg, #4b6cb7, #182848); 
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  border-radius: 12px; /* Pontas arredondadas */
+  border-radius: 12px; 
   margin-bottom: 2rem;
-    /* ↓ Limitando largura e centralizando ↓ */
- 
-  margin: 1rem auto 2rem auto; /* topo e base com espaço, centralizada */
-  padding: 0.3rem 1rem; /* um pouco mais compacta verticalmente */
+  margin: 1rem auto 2rem auto; 
+  padding: 0.3rem 1rem; 
 }
 
 .app-navbar .nav-link {
@@ -40,7 +38,7 @@ body {
 }
 
 .app-navbar .nav-link:hover {
-  color: #ffd700; /* Destaque amarelo */
+  color: #ffd700; 
   transform: scale(1.05);
 }
 
@@ -76,7 +74,6 @@ body {
 }
 
 /* Cards */
-
 .card {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -88,7 +85,6 @@ body {
 }
 
 /* ListGroup Items */
-
 .list-group-item {
   border-radius: 8px;
   margin-bottom: 8px;
@@ -101,7 +97,6 @@ body {
 }
 
 /*Autores*/
-
 .autor-card {
   display: flex;
   justify-content: space-between;
@@ -150,7 +145,6 @@ body {
 }
 
 /*Gêneros*/
-
 .genero-card {
   display: flex;
   justify-content: space-between;
@@ -182,7 +176,6 @@ body {
 }
 
 /*Listas de Livros*/
-
 .book-card {
   width: 180px;
   border-radius: 12px;
@@ -255,7 +248,6 @@ body {
 }
 
 /*Livros Detalhes*/
-
 .livro-detalhes-card {
   max-width: 700px;
   margin: 0 auto;
