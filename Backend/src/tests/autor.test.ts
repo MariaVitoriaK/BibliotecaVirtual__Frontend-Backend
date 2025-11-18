@@ -7,16 +7,14 @@ let autorId: number;
 
 beforeAll(async () => {
   await AppDataSource.initialize();
-    // Desativar temporariamente as foreign keys
+
   await AppDataSource.manager.query("SET FOREIGN_KEY_CHECKS = 0;");
 
-  // Limpar tabelas na ordem correta
   await AppDataSource.getRepository("Livro").clear();
   await AppDataSource.getRepository("Genero").clear();
   await AppDataSource.getRepository("Autor").clear();
   await AppDataSource.getRepository("Usuario").clear();
 
-  // Reativar as foreign keys
   await AppDataSource.manager.query("SET FOREIGN_KEY_CHECKS = 1;");
 
   await request(app).post("/api/auth/signup").send({

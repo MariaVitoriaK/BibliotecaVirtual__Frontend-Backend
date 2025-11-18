@@ -7,6 +7,6 @@ const router = Router();
 router.use(authMiddleware);
 
 router.get("/me", me);
-router.put("/", updateUser); // PUT /api/usuarios/
+router.put("/", updateUser);
 
 export default router;

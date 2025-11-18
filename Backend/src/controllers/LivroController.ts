@@ -61,17 +61,14 @@ export const updateLivro = async (req: Request, res: Response) => {
     return res.status(404).json({ message: "Livro não encontrado" });
   }
 
-  // Atualizar SOMENTE os campos presentes no req.body
   if (req.body.titulo !== undefined) livro.titulo = req.body.titulo;
   if (req.body.descricao !== undefined) livro.descricao = req.body.descricao;
   if (req.body.imagem !== undefined) livro.imagem = req.body.imagem;
 
-  // Flags de listas
   if (req.body.isFavorito !== undefined) livro.isFavorito = req.body.isFavorito;
   if (req.body.isQueroLer !== undefined) livro.isQueroLer = req.body.isQueroLer;
   if (req.body.isCompleto !== undefined) livro.isCompleto = req.body.isCompleto;
 
-  // Atualizar autor
   if (req.body.autorId !== undefined) {
     if (req.body.autorId === null) {
       livro.autor = null;
@@ -81,7 +78,6 @@ export const updateLivro = async (req: Request, res: Response) => {
     }
   }
 
-  // Atualizar genero
   if (req.body.generoId !== undefined) {
     if (req.body.generoId === null) {
       livro.genero = null;
@@ -94,8 +90,6 @@ export const updateLivro = async (req: Request, res: Response) => {
   const salvo = await livroRepository.save(livro);
   return res.json(salvo);
 };
-
-
 
 export const deleteLivro = async (req: Request, res: Response) => {
   const livro = await livroRepository.findOneBy({ id: Number(req.params.id) });

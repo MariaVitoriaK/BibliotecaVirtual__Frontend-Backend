@@ -20,7 +20,6 @@ export class Usuario {
   @Column()
   senha: string;
 
-  // 👉 Foto opcional
   @Column({ nullable: true })
   foto: string;
 
