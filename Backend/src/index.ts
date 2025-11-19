@@ -9,6 +9,7 @@ import autorRoutes from "./routes/autorRoutes";
 import generoRoutes from "./routes/generoRoutes";
 import usuarioRoutes from "./routes/usuarioRoutes";
 
+
 dotenv.config();
 
 export const app = express();
@@ -24,11 +25,9 @@ app.use("/api/generos", generoRoutes);
 app.use("/api/usuarios", usuarioRoutes)
 
 if (process.env.NODE_ENV !== "test") {
-  AppDataSource.initialize()
-    .then(() => {
-      app.listen(process.env.PORT || 3001, () => {
-        console.log(`Servidor rodando na porta ${process.env.PORT || 3001}`);
-      });
-    })
-    .catch(err => console.log(err));
+  AppDataSource.initialize().then(() => {
+    app.listen(process.env.PORT || 3001, () => {
+      console.log("Servidor rodando");
+    });
+  });
 }

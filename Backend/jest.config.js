@@ -6,4 +6,6 @@ export default {
   transform: {
     '^.+\\.ts?$': 'ts-jest',
   },
+  testTimeout: 20000, // evitar timeout
+  detectOpenHandles: true, // ajuda a identificar conexões abertas
 };
