@@ -35,6 +35,8 @@ describe("CRUD de Livros", () => {
 
     cy.get('button[type="submit"]').click();
 
+    cy.get("input[placeholder='Pesquisar livros...']").type(livro.titulo);
+
     cy.contains(livro.titulo).should("exist");
   });
 
@@ -50,12 +52,16 @@ describe("CRUD de Livros", () => {
   cy.visit('http://localhost:5173/');
   cy.wait('@getLivros');
 
-  cy.get('[data-cy^="editar-livro-btn-"]').last().click();
+  cy.get("input[placeholder='Pesquisar livros...']").type(livro.titulo);
+
+  cy.get('[data-cy^="editar-livro-btn-"]').click();
 
   cy.get("input").first().clear().type(livroEditado.titulo);
   cy.get("textarea").clear().type(livroEditado.descricao);
 
   cy.contains("Salvar Alterações").click();
+
+   cy.get("input[placeholder='Pesquisar livros...']").type(livroEditado.titulo);
 
   cy.contains(livroEditado.titulo).should("exist");
   });
@@ -72,6 +78,7 @@ describe("CRUD de Livros", () => {
     cy.visit('http://localhost:5173/');
     cy.wait('@getLivros');
 
+    cy.get("input[placeholder='Pesquisar livros...']").type(livroEditado.titulo);
     cy.get('[data-cy^="ver-livro-btn-"]').last().click();
 
     cy.contains("Descrição").should("exist");
@@ -89,6 +96,8 @@ describe("CRUD de Livros", () => {
       cy.intercept('GET', '/api/livros').as('getLivros');
       cy.visit('http://localhost:5173/');
       cy.wait('@getLivros');
+
+    cy.get("input[placeholder='Pesquisar livros...']").type(livroEditado.titulo);
 
     cy.get('[data-cy^="excluir-livro-btn-"]').last().click();
 

@@ -46,17 +46,6 @@ const AutorForm = () => {
           {isEdit ? "✏️ Editar Autor" : "🖋️ Novo Autor"}
         </h3>
 
-        {/* Preview da foto */}
-        {foto && (
-          <div className="text-center mb-3">
-            <img
-              src={foto}
-              alt="Preview"
-              className="form-image-preview"
-              onError={(e) => (e.target.style.display = "none")}
-            />
-          </div>
-        )}
 
         <Form onSubmit={handleSubmit}>
 

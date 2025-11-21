@@ -53,17 +53,6 @@ const BookForm = () => {
           {isEdit ? "✏️ Editar Livro" : "📚 Adicionar Livro"}
         </h3>
 
-        {imagem && (
-          <div className="text-center mb-3">
-            <img
-              src={imagem}
-              alt="Prévia"
-              className="form-image-preview"
-              onError={(e) => e.target.style.display = "none"}
-            />
-          </div>
-        )}
-
         <Form onSubmit={submit}>
           <Form.Group className="mb-3">
             <Form.Label><strong>Título *</strong></Form.Label>

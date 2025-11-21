@@ -46,7 +46,7 @@ const Listas = () => {
       <h3>Listas</h3>
 
       <h5 className="list-section">Favoritos</h5>
-      {favoritos.length === 0 && <p>Nenhum favorito</p>}
+      {favoritos.length === 0 && <p>Nenhum livro no favoritos</p>}
       <div className="horizontal-list">
         {favoritos.map(b => (
           <SimpleCard 
@@ -59,7 +59,7 @@ const Listas = () => {
       </div>
 
      <h5 className="list-section">Quero Ler</h5>
-      {quero.length === 0 && <p>Nenhum</p>}
+      {quero.length === 0 && <p>Nenhum livro no Quero Ler</p>}
       <div className="horizontal-list">
         {quero.map(b => (
           <SimpleCard 
@@ -72,7 +72,7 @@ const Listas = () => {
       </div>
 
      <h5 className="list-section">Completos</h5>
-      {completos.length === 0 && <p>Nenhum</p>}
+      {completos.length === 0 && <p>Nenhum livro no Completos</p>}
       <div className="horizontal-list">
         {completos.map(b => (
           <SimpleCard 

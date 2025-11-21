@@ -15,8 +15,8 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",
   database: process.env.NODE_ENV === "test"
-    ? "biblioteca_teste"    // banco exclusivo para testes
-    : "biblioteca_front",   // banco normal que você já usa
+    ? "biblioteca_teste"   
+    : "biblioteca_front",   
   synchronize: true,
   logging: false,
   entities: [Usuario, Livro, Autor, Genero],
