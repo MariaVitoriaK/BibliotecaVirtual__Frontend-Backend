@@ -5,7 +5,7 @@ import AppNavbar from "./components/AppNavbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import BookForm from "./pages/BookForm";
+import BookForm from "./pages/LivroForm";
 import Autores from "./pages/Autores";
 import Generos from "./pages/Generos";
 import Listas from "./pages/Listas";

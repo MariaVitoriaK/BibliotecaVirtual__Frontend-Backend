@@ -4,7 +4,7 @@ import { Navbar, Nav, Container, Button, NavDropdown, Image } from "react-bootst
 import { AuthContext } from "../context/AuthContext";
 import { FaHome, FaBook, FaList, FaInfoCircle, FaUserCircle, FaSignOutAlt, FaAddressBook, FaAddressCard, FaArchive, FaBookOpen } from "react-icons/fa";
 import { motion } from "framer-motion";
-import "../App.css"; // importe o CSS criado
+import "../App.css"; 
 
 export default function AppNavbar() {
   const navigate = useNavigate();

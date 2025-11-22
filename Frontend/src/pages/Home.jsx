@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import api from "../api/api";
-import BookCard from "../components/BookCard";
+import LivroCard from "../components/LivroCard";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Form } from "react-bootstrap";
@@ -77,7 +77,7 @@ const Home = () => {
 
         {currentBooks.map(book => (
           <Col key={book.id} xs={12} md={6} lg={4}>
-            <BookCard
+            <LivroCard
               book={book}
               onToggleList={toggle}
               onDelete={remove}

@@ -24,15 +24,10 @@ describe("CRUD de Livros", () => {
  
   it("Deve criar um novo livro", () => {
     cy.visit("http://localhost:5173/livros/novo");
-    // título
+
     cy.get('input[name="titulo"]').type(livro.titulo);
-
-    // descrição
     cy.get('textarea[name="descricao"]').type(livro.descricao);
-
-    // imagem
     cy.get('input[name="imagem"]').type(livro.imagem);
-
     cy.get('button[type="submit"]').click();
 
     cy.get("input[placeholder='Pesquisar livros...']").type(livro.titulo);

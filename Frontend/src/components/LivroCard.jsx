@@ -2,9 +2,9 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import "./BookCard.css"; 
+import "./LivroCard.css"; 
 
-const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
+const LivroCard = ({ book, onToggleList, onEdit, onDelete }) => {
   return (
     <motion.div
   className="bookcard-container"
@@ -94,4 +94,4 @@ const BookCard = ({ book, onToggleList, onEdit, onDelete }) => {
   );
 };
 
-export default BookCard;
+export default LivroCard;
