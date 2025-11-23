@@ -1,6 +1,6 @@
 # 📚 Biblioteca Virtual
 
-Este projeto é uma aplicação web completa (Backend e Frontend) desenvolvida para gerenciamento de uma biblioteca virtual pessoal. A solução é composta por uma API RESTful robusta em Node.js e um Front-end em React.
+Este projeto é uma aplicação web completa (Backend e Frontend) desenvolvida para gerenciamento de uma biblioteca virtual pessoal.
 
 ---
 
@@ -8,58 +8,29 @@ Este projeto é uma aplicação web completa (Backend e Frontend) desenvolvida p
 
 ### 🛠️ Back‑end
 
----
+**Framework -** Node.js + Express.
 
-Requisito Tecnologia / Implementação Detalhes
+**Banco de Dados -** MySQL (XAMPP).
 
----
+**Autenticação -** JWT.
 
-**Framework** Node.js + Express Rotas,
-middlewares,
-controllers.
-
-**Banco de Dados** MySQL (XAMPP).
-
-**ORM** TypeORM Entidades:
-_Usuario_,
-_Autor_,
-_Gênero_,
-_Livro_.
-
-**Autenticação** JWT Login, registro e
-middleware de
-proteção.
-
-**Testes** Jest / Supertest Cobertura dos
-fluxos de
-autenticação e
-CRUD.
+**Testes -** Jest / Supertest.
 
 ---
 
 ### 🎨 Front‑end
 
----
+**Framework -** React.
 
-##### Tecnologias implementadas:
+**Estilização -** React Bootstrap e outros.
 
----
+**Animações -** Framer Motion.
 
-**Framework** React.
-
-**Estilização** React Bootstrap e outros.
-
-**Animações** Framer Motion.
-
-**Testes E2E** Cypress Fluxos completos
-de Autor, Gênero
-e Livro.
+**Testes -** Cypress.
 
 ---
 
-## 🔗 Estrutura dos Recursos da API
-
----
+### 🔗 Estrutura dos Recursos da API
 
 - **/auth** --- ❌ `/register`, `/login`
 
@@ -77,32 +48,14 @@ e Livro.
 
 ### **1️⃣ Back‑end (API)**
 
-Pode Clonar o repositório:
-
-```
-git clone https://github.com/MariaVitoriaK/BibliotecaVirtual__Frontend-Backend.git
-```
-
-Entrar na pasta:
-
-```
-cd backend
-```
-
-Instale as dependências:
-
-```
-npm install
-```
-
 Configure o banco de dados no XAMPP:
 
 - Inicie Apache e MySQL
 - Crie os BD: `biblioteca_front` e `biblioteca_test`
 
-Inicie servidor:
-
-```
+```Bash
+cd backend
+npm install
 npm run dev
 ```
 
@@ -112,7 +65,7 @@ A API estará em **http://localhost:3001**
 
 ### **2️⃣ Front‑end (React)**
 
-```
+```Bash
 cd frontend
 npm install
 npm run dev
@@ -126,14 +79,14 @@ O front abre em **http://localhost:3000**
 
 **Back‑end:**
 
-```
+```Bash
 cd backend
 npm run test
 ```
 
 **Front‑end (Cypress):**
 
-```
+```Bash
 cd frontend
 npx cypress open
 ```
@@ -142,8 +95,8 @@ npx cypress open
 
 ## 🎬 Apresentação em Vídeo
 
-Insira seu link mágico aqui:
-
-👉 **...**
+👉 **[Vídeo](https://youtu.be/HqA-nsQWQfg)**
 
 ---
+
+**Repositório do GitHub:** `https://github.com/MariaVitoriaK/BibliotecaVirtual__Frontend-Backend.git`
