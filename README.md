@@ -37,13 +37,11 @@ CRUD.
 
 ---
 
----
-
 ### 🎨 Front‑end
 
 ---
 
-Requisito Tecnologia / Implementação Detalhes
+##### Tecnologias implementadas:
 
 ---
 
@@ -59,17 +57,19 @@ e Livro.
 
 ---
 
----
-
 ## 🔗 Estrutura dos Recursos da API
 
 ---
 
-**/auth** --- ❌ `/register`, `/login`
-**/autores** Completo ✔️ Todas as rotas CRUD
-**/generos** Completo ✔️ Todas as rotas CRUD
-**/livros** Completo ✔️ Todas as rotas CRUD
-**/usuarios** Consulta/Update ✔️ `/me`, `/update`
+- **/auth** --- ❌ `/register`, `/login`
+
+- **/autores** Completo ✔️ Todas as rotas CRUD
+
+- **/generos** Completo ✔️ Todas as rotas CRUD
+
+- **/livros** Completo ✔️ Todas as rotas CRUD
+
+- **/usuarios** Consulta/Update ✔️ `/me`, `/update`
 
 ---
 
@@ -81,7 +81,6 @@ Pode Clonar o repositório:
 
 ```
 git clone https://github.com/MariaVitoriaK/BibliotecaVirtual__Frontend-Backend.git
-cd backend
 ```
 
 Entrar na pasta:
@@ -98,10 +97,10 @@ npm install
 
 Configure o banco de dados no XAMPP:
 
-- Inicie Apache e MySQL\
+- Inicie Apache e MySQL
 - Crie os BD: `biblioteca_front` e `biblioteca_test`
 
-Inicie servidor e migrações:
+Inicie servidor:
 
 ```
 npm run dev
@@ -134,7 +133,7 @@ npm run test
 
 **Front‑end (Cypress):**
 
-```bash
+```
 cd frontend
 npx cypress open
 ```
